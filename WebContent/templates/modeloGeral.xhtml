@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	
+<ui:insert name="metadata" />
+	
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Saúde Financeira</title>
+	<h:outputStylesheet library="css" name="estilos.css" />
+</h:head>
+<h:body>
+	<!-- Mensagem Geral -->
+	<p:growl id="msgGlobal" sticky="true"/>
+	
+	<p:layout fullPage="true">
+		<!-- topo -->
+		<p:layoutUnit size="120" position="north" resizable="false"
+			collapsible="false" closable="false">
+		</p:layoutUnit>
+		
+		<!-- rodapé -->
+		<p:layoutUnit header="Desenvolvido por Gustavo Dias" position="south"
+			resizable="false" collapsible="false" closable="false">
+		</p:layoutUnit>
+		
+		<!-- menu -->
+		<p:layoutUnit size="200" position="west" resizable="false"
+			collapsible="false" closable="false">
+			<h:form>
+				<p:panelMenu>
+					<p:submenu label="Arquivo">
+						<p:menuitem value="Principal" outcome="/pages/principal.xhtml" />
+						<p:menuitem value="Sair" />
+					</p:submenu>
+					<p:submenu label="Cadastros">
+						<p:menuitem value="Usuários" outcome="/pages/usuario/usuarioPesquisa.xhtml" />
+						<p:menuitem value="Colaborador" outcome="/pages/pessoaFisica/pessoaFisicaPesquisa.xhtml"/>
+					</p:submenu>
+					<p:submenu label="Relatórios">
+					</p:submenu>
+				</p:panelMenu>
+			</h:form>
+		</p:layoutUnit>
+		
+		<!-- área de Trabalho -->
+		<p:layoutUnit position="center" resizable="false" collapsible="false"
+			closable="false">
+			<ui:insert name="conteudo" />
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+</html>

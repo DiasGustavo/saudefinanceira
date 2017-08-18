@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{pessoaBean.carregarDados}" type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="formCadPessoa">
+
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Cadastro Pessoas" />
+				</f:facet>
+			</p:toolbar>
+
+			<h:panelGrid id="pnlPessoaDados" columns="3">
+				<p:outputLabel value="Nome:" />
+				<p:inputText maxlength="50" size="30"
+					value="#{pessoaBean.pessoaCadastro.nome}">
+				</p:inputText>
+				<p:outputLabel/>
+
+				<p:outputLabel value="Endereço:" />
+				<p:selectOneMenu value="#{pessoaBean.pessoaCadastro.endereco}"
+					converter="enderecoConverter" filter="true"
+					filterMatchMode="startsWith" style="width: 99%;">
+					<f:selectItem itemValue="" itemLabel="Selecione o endereço" />
+					<f:selectItems value="#{pessoaBean.listaEnderecos}" var="endereco"
+						itemValue="#{endereco}" itemLabel="#{endereco.logradouro}, #{endereco.numero}" />
+				</p:selectOneMenu>
+				<p:commandButton value="Novo"/>
+
+				<p:outputLabel value="Observações:" />
+				<p:inputText maxlength="50" size="30"
+					value="#{pessoaBean.pessoaCadastro.observacao}">
+				</p:inputText>
+				<p:outputLabel/>
+			</h:panelGrid>
+
+			<h:panelGrid columns="5">
+				<p:commandButton value="Novo" actionListener="#{pessoaBean.novo}"
+					update=":formCadPessoa:pnlPessoaDados" />
+				<p:commandButton value="Salvar"
+					actionListener="#{pessoaBean.salvar}"
+					update=":msgGlobal :formCadPessoa:pnlPessoaDados" />
+				<p:commandButton value="Voltar"
+					action="/pages/pessoa/pessoaPesquisa.xhtml?faces-redirect=true" />
+				<p:commandButton value="Editar"
+					actionListener="#{pessoaBean.editar}" update=":msgGlobal" />
+				<p:commandButton value="Excluir"
+					actionListener="#{pessoaBean.excluir}" update=":msgGlobal" />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>
