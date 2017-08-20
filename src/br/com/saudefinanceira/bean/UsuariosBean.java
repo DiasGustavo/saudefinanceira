@@ -20,6 +20,16 @@ public class UsuariosBean {
 	private List<Usuarios> listaUsuariosFiltrados;
 	private List<PessoaFisica> listaPessoasFisicas;
 	
+	private String acao;
+	
+	public String getAcao() {
+		return acao;
+	}
+
+	public void setAcao(String acao) {
+		this.acao = acao;
+	}
+
 	public Usuarios getUsuarioCadastro() {		
 		return usuarioCadastro;
 	}
@@ -80,6 +90,8 @@ public class UsuariosBean {
 	
 	public void carregarDados(){
 		try{
+			acao = FacesUtil.getParam("useracao");
+			
 			String valor = FacesUtil.getParam("userId");
 			
 			if(valor != null){

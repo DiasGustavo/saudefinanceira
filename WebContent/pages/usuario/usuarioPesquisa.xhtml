@@ -26,8 +26,10 @@
 				filteredValue="#{usuariosBean.listaUsuariosFiltrados}" var="usuario"
 				rows="10" paginator="true">
 				<f:facet name="footer">
-					<p:commandButton value="Novo"
-						action="/pages/usuario/usuarioCadastro.xhtml?faces-redirect=true" />
+					<p:button value="Novo"
+						outcome="/pages/usuario/usuarioCadastro.xhtml?faces-redirect=true" >
+						<f:param name="useracao" value="novo"/>
+					</p:button>
 				</f:facet>
 				<p:column headerText="Código" filterBy="#{usuario.id}"
 					sortBy="#{usuario.id}">
@@ -48,12 +50,14 @@
 
 				<p:column headerText="Opções">
 					<p:button value="Editar"
-						outcome="/pages/pessoaFisica/pessoaFisicaCadastro.xhtml?faces-redirect=true">
-						<f:param name="pfId" value="#{pfisica.id}" />
+						outcome="/pages/usuario/usuarioCadastro.xhtml?faces-redirect=true">
+						<f:param name="useracao" value="editar"/>
+						<f:param name="userId" value="#{usuario.id}" />
 					</p:button>
 					<p:button value="Excluir"
-						outcome="/pages/pessoaFisica/pessoaFisicaCadastro.xhtml?faces-redirect=true">
-						<f:param name="pfId" value="#{pfisica.id}" />
+						outcome="/pages/usuario/usuarioCadastro.xhtml?faces-redirect=true">
+						<f:param name="useracao" value="excluir"/>
+						<f:param name="userId" value="#{usuario.id}" />
 					</p:button>
 				</p:column>
 

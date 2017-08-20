@@ -28,7 +28,7 @@
 				<p:inputText maxlength="50" size="30"
 					value="#{pessoaBean.pessoaCadastro.nome}">
 				</p:inputText>
-				<p:outputLabel/>
+				<p:outputLabel />
 
 				<p:outputLabel value="Endereço:" />
 				<p:selectOneMenu value="#{pessoaBean.pessoaCadastro.endereco}"
@@ -36,29 +36,34 @@
 					filterMatchMode="startsWith" style="width: 99%;">
 					<f:selectItem itemValue="" itemLabel="Selecione o endereço" />
 					<f:selectItems value="#{pessoaBean.listaEnderecos}" var="endereco"
-						itemValue="#{endereco}" itemLabel="#{endereco.logradouro}, #{endereco.numero}" />
+						itemValue="#{endereco}"
+						itemLabel="#{endereco.logradouro}, #{endereco.numero}" />
 				</p:selectOneMenu>
-				<p:commandButton value="Novo"/>
+				<p:commandButton value="Novo" />
 
 				<p:outputLabel value="Observações:" />
 				<p:inputText maxlength="50" size="30"
 					value="#{pessoaBean.pessoaCadastro.observacao}">
 				</p:inputText>
-				<p:outputLabel/>
+				<p:outputLabel />
 			</h:panelGrid>
 
 			<h:panelGrid columns="5">
 				<p:commandButton value="Novo" actionListener="#{pessoaBean.novo}"
-					update=":formCadPessoa:pnlPessoaDados" />
+					update=":formCadPessoa:pnlPessoaDados"
+					rendered="#{pessoaBean.acao == 'novo'}" />
 				<p:commandButton value="Salvar"
 					actionListener="#{pessoaBean.salvar}"
-					update=":msgGlobal :formCadPessoa:pnlPessoaDados" />
+					update=":msgGlobal :formCadPessoa:pnlPessoaDados"
+					rendered="#{pessoaBean.acao == 'novo'}" />
 				<p:commandButton value="Voltar"
 					action="/pages/pessoa/pessoaPesquisa.xhtml?faces-redirect=true" />
 				<p:commandButton value="Editar"
-					actionListener="#{pessoaBean.editar}" update=":msgGlobal" />
+					actionListener="#{pessoaBean.editar}" update=":msgGlobal"
+					rendered="#{pessoaBean.acao == 'editar'}" />
 				<p:commandButton value="Excluir"
-					actionListener="#{pessoaBean.excluir}" update=":msgGlobal" />
+					actionListener="#{pessoaBean.excluir}" update=":msgGlobal"
+					rendered="#{pessoaBean.acao == 'excluir'}" />
 			</h:panelGrid>
 		</h:form>
 	</ui:define>

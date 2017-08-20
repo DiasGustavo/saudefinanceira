@@ -19,6 +19,16 @@ public class PessoaBean {
 	private List<Pessoa> listaPessoas;
 	private List<Pessoa> listaPessoasFiltradas;
 	private List<Endereco> listaEnderecos;
+	
+	private String acao;	
+
+	public String getAcao() {
+		return acao;
+	}
+
+	public void setAcao(String acao) {
+		this.acao = acao;
+	}
 
 	public Pessoa getPessoaCadastro() {
 		return pessoaCadastro;
@@ -80,6 +90,8 @@ public class PessoaBean {
 
 	public void carregarDados() {
 		try {
+			acao = FacesUtil.getParam("pesacao");
+			
 			String valor = 	FacesUtil.getParam("pessId");
 			if (valor != null){
 				Long codigo = Long.parseLong(valor);

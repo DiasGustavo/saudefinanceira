@@ -20,6 +20,15 @@ public class PessoaFisicaBean {
 	private List<PessoaFisica> listaPessoasFisicasFiltradas;
 	private List<Pessoa> listaPessoas;
 	
+	private String acao;
+	
+	
+	public String getAcao() {
+		return acao;
+	}
+	public void setAcao(String acao) {
+		this.acao = acao;
+	}
 	public PessoaFisica getPfisicaCadastro() {
 		return pfisicaCadastro;
 	}
@@ -73,6 +82,8 @@ public class PessoaFisicaBean {
 	
 	public void carregarDados(){
 		try{
+			acao = FacesUtil.getParam("pfacao");
+			
 			String valor = FacesUtil.getParam("pfId");
 			
 			if(valor != null){

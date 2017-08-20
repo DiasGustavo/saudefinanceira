@@ -52,22 +52,31 @@
 
 				<p:outputLabel value="Pessoa Física:" />
 				<p:selectOneMenu value="#{usuariosBean.usuarioCadastro.pfisica}"
-					converter="pessoaFisicaConverter"  style="width: 99%;">
+					converter="pessoaFisicaConverter" style="width: 99%;">
 					<f:selectItem itemValue="" itemLabel="Selecione a pessoa" />
-					<f:selectItems value="#{usuariosBean.listaPessoasFisicas}" 
-					var="pfisica" itemValue="#{pfisica}" itemLabel="#{pfisica.pessoa.nome}"/>
+					<f:selectItems value="#{usuariosBean.listaPessoasFisicas}"
+						var="pfisica" itemValue="#{pfisica}"
+						itemLabel="#{pfisica.pessoa.nome}" />
 				</p:selectOneMenu>
 				<p:outputLabel />
 			</h:panelGrid>
 
 			<h:panelGrid columns="3">
 				<p:commandButton value="Novo" actionListener="#{usuariosBean.novo}"
-					update=":formCadUser:pnlUserDados" />
+					update=":formCadUser:pnlUserDados"
+					rendered="#{usuariosBean.acao == 'novo'}" />
 				<p:commandButton value="Salvar"
 					actionListener="#{usuariosBean.salvar}"
-					update=":msgGlobal :formCadUser:pnlUserDados" />
+					update=":msgGlobal :formCadUser:pnlUserDados"
+					rendered="#{usuariosBean.acao == 'novo'}" />
 				<p:commandButton value="Voltar"
 					action="/pages/usuario/usuarioPesquisa.xhtml?faces-redirect=true" />
+				<p:commandButton value="Editar"
+					actionListener="#{usuariosBean.editar}" update=":msgGlobal"
+					rendered="#{usuariosBean.acao == 'editar'}" />
+				<p:commandButton value="Salvar"
+					actionListener="#{usuariosBean.excluir}" update=":msgGlobal"
+					rendered="#{usuariosBean.acao == 'excluir'}" />
 			</h:panelGrid>
 		</h:form>
 	</ui:define>

@@ -26,8 +26,10 @@
 				filteredValue="#{pessoaFisicaBean.listaPessoasFisicasFiltradas}" var="pfisica"
 				rows="10" paginator="true">
 				<f:facet name="footer">
-					<p:commandButton value="Novo"
-						action="/pages/pessoaFisica/pessoaFisicaCadastro.xhtml?faces-redirect=true" />
+					<p:button value="Novo"
+						outcome="/pages/pessoaFisica/pessoaFisicaCadastro.xhtml?faces-redirect=true" >
+						<f:param name="pfacao" value="novo"/>
+					</p:button>
 				</f:facet>
 				<p:column headerText="Código" filterBy="#{pfisica.id}"
 					sortBy="#{pfisica.id}">
@@ -45,10 +47,12 @@
 				<p:column headerText="Opções">
 					<p:button value="Editar"
 						outcome="/pages/pessoaFisica/pessoaFisicaCadastro.xhtml?faces-redirect=true">
+						<f:param name="pfacao" value="editar"/>
 						<f:param name="pfId" value="#{pfisica.id}" />
 					</p:button>
 					<p:button value="Excluir"
 						outcome="/pages/pessoaFisica/pessoaFisicaCadastro.xhtml?faces-redirect=true">
+						<f:param name="pfacao" value="excluir"/>
 						<f:param name="pfId" value="#{pfisica.id}" />
 					</p:button>
 				</p:column>

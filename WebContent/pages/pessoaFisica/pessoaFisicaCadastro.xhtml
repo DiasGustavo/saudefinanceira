@@ -68,49 +68,54 @@
 				<p:inputMask mask="(99)9999-9999" size="13"
 					value="#{pessoaFisicaBean.pfisicaCadastro.celular}" />
 				<p:outputLabel />
-				
+
 				<p:outputLabel value="Email:" />
 				<p:inputText maxlength="50" size="30"
 					value="#{pessoaFisicaBean.pfisicaCadastro.email}">
 				</p:inputText>
 				<p:outputLabel />
-				
+
 				<p:outputLabel value="Sexo:" />
 				<p:selectOneMenu value="#{pessoaFisicaBean.pfisicaCadastro.sexo}">
-						<f:selectItem itemValue="" itemLabel="Selecione o sexo" />
-						<f:selectItem itemValue="M" itemLabel="Masculino" />
-						<f:selectItem itemValue="F" itemLabel="Feminino" />					
+					<f:selectItem itemValue="" itemLabel="Selecione o sexo" />
+					<f:selectItem itemValue="M" itemLabel="Masculino" />
+					<f:selectItem itemValue="F" itemLabel="Feminino" />
 				</p:selectOneMenu>
 				<p:outputLabel />
-				
-				<p:outputLabel value="Data de Nascimento:"/>
+
+				<p:outputLabel value="Data de Nascimento:" />
 				<p:calendar
 					value="#{pessoaFisicaBean.pfisicaCadastro.dataNascimento}"
 					pattern="dd/MM/yyyy" mask="true" mode="popup">
 					<f:convertDateTime pattern="dd/MM/yyyy" />
 				</p:calendar>
-				<p:outputLabel/>
-				
+				<p:outputLabel />
+
 				<p:outputLabel value="Observações:" />
 				<p:inputTextarea maxlength="50" size="30"
 					value="#{pessoaFisicaBean.pfisicaCadastro.observacao}">
 				</p:inputTextarea>
 				<p:outputLabel />
-				
+
 			</h:panelGrid>
 
 			<h:panelGrid columns="5">
-				<p:commandButton value="Novo" actionListener="#{pessoaFisicaBean.novo}"
-					update=":formCadPessoaFisica:pnlPessoaDados" />
+				<p:commandButton value="Novo"
+					actionListener="#{pessoaFisicaBean.novo}"
+					update=":formCadPessoaFisica:pnlPessoaDados"
+					rendered="#{pessoaFisicaBean.acao == 'novo'}" />
 				<p:commandButton value="Salvar"
 					actionListener="#{pessoaFisicaBean.salvar}"
-					update=":msgGlobal :formCadPessoaFisica:pnlPessoaDados" />
+					update=":msgGlobal :formCadPessoaFisica:pnlPessoaDados"
+					rendered="#{pessoaFisicaBean.acao == 'novo'}" />
 				<p:commandButton value="Voltar"
 					action="/pages/pessoaFisica/pessoaFisicaPesquisa.xhtml?faces-redirect=true" />
 				<p:commandButton value="Editar"
-					actionListener="#{pessoaFisicaBean.editar}" update=":msgGlobal" />
+					actionListener="#{pessoaFisicaBean.editar}" update=":msgGlobal"
+					rendered="#{pessoaFisicaBean.acao == 'editar'}" />
 				<p:commandButton value="Excluir"
-					actionListener="#{pessoaFisicaBean.excluir}" update=":msgGlobal" />
+					actionListener="#{pessoaFisicaBean.excluir}" update=":msgGlobal"
+					rendered="#{pessoaFisicaBean.acao == 'excluir'}" />
 			</h:panelGrid>
 		</h:form>
 	</ui:define>
