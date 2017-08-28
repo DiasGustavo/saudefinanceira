@@ -17,7 +17,16 @@ public class EnderecoBean {
 	private List<Endereco> listaEnderecos;
 	private List<Endereco> listaEnderecosFiltrados;
 	
-	private String acao;	
+	private String acao;
+	private Long codigo;
+	
+	public Long getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
 
 	public String getAcao() {
 		return acao;
@@ -28,6 +37,9 @@ public class EnderecoBean {
 	}
 
 	public Endereco getEnderecoCadastrado() {
+		if (enderecoCadastrado == null){
+			enderecoCadastrado = new Endereco();
+		}
 		return enderecoCadastrado;
 	}
 
@@ -80,12 +92,7 @@ public class EnderecoBean {
 
 	public void carregarDados() {
 		try {
-			acao = FacesUtil.getParam("endacao");
-			
-			String valor = FacesUtil.getParam("endId");
-			if (valor != null) {
-				Long codigo = Long.parseLong(valor);
-
+			if (codigo != null) {
 				EnderecoDAO edao = new EnderecoDAO();
 				enderecoCadastrado = edao.buscarPorCodigo(codigo);
 			}else{

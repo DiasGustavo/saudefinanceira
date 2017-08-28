@@ -32,7 +32,7 @@
 					</p:button>
 				</f:facet>
 				<p:column headerText="Código" filterBy="#{endereco.id}"
-					sortBy="#{endereco.id}">
+					sortBy="#{endereco.id}" style="width: 9%;">
 					<h:outputText value="#{endereco.id}" />
 				</p:column>
 
@@ -44,7 +44,7 @@
 					<h:outputText value="#{endereco.cep}" />
 				</p:column>
 				<!-- botões -->
-				<p:column headerText="Opções">
+				<p:column headerText="Opções" style="width: 12%;">
 					<p:button value="Editar"
 						outcome="/pages/endereco/enderecoCadastro.xhtml?faces-redirect=true">
 						<f:param name="endacao" value="editar"/>

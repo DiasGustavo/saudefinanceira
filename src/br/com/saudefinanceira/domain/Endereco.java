@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "tbl_endereco")
@@ -22,15 +25,23 @@ public class Endereco {
 	@Column(name = "id_endereco")
 	private Long id;
 
+	@NotEmpty(message = "o campo rua é obrigatório")
+	@Size(min = 5, max = 50, message= "Rua deve ter entre 5 e 50 caracteres")
 	@Column(name = "rua", length = 50, nullable = false)
 	private String logradouro;
 
+	@NotEmpty(message = "o campo cidade é obrigatório")
+	@Size(min = 3, max = 50, message= "Cidade deve ter entre 3 e 50 caracteres")
 	@Column(name = "cidade", length = 50, nullable = false)
 	private String cidade;
 
+	@NotEmpty(message = "o campo estado é obrigatório")
+	@Size(min = 3, max = 50, message= "Estado deve ter entre 3 e 50 caracteres")
 	@Column(name = "estado", length = 50, nullable = false)
 	private String estado;
 
+	@NotEmpty(message = "o campo bairro é obrigatório")
+	@Size(min = 3, max = 50, message= "Bairro deve ter entre 3 e 50 caracteres")
 	@Column(name = "bairro", length = 50, nullable = false)
 	private String bairro;
 
@@ -40,6 +51,8 @@ public class Endereco {
 	@Column(name = "numero", length = 50)
 	private String numero;
 
+	@NotEmpty(message = "o campo CEP é obrigatório")
+	@Size(min = 1, max = 9, message= "CEP deve ter entre 1 e 9 caracteres")
 	@Column(name = "cep", length = 9)
 	private String cep;
 

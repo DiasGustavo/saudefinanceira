@@ -23,37 +23,38 @@
 
 			<p:dataTable emptyMessage="Nenhum registro encontrado."
 				value="#{pessoaFisicaBean.listaPessoasFisicas}"
-				filteredValue="#{pessoaFisicaBean.listaPessoasFisicasFiltradas}" var="pfisica"
-				rows="10" paginator="true">
+				filteredValue="#{pessoaFisicaBean.listaPessoasFisicasFiltradas}"
+				var="pfisica" rows="10" paginator="true">
 				<f:facet name="footer">
 					<p:button value="Novo"
-						outcome="/pages/pessoaFisica/pessoaFisicaCadastro.xhtml?faces-redirect=true" >
-						<f:param name="pfacao" value="novo"/>
+						outcome="/pages/pessoaFisica/pessoaFisicaCadastro.xhtml?faces-redirect=true">
+						<f:param name="pfacao" value="novo" />
 					</p:button>
 				</f:facet>
 				<p:column headerText="Código" filterBy="#{pfisica.id}"
-					sortBy="#{pfisica.id}">
+					sortBy="#{pfisica.id}" style="width: 9%;">
 					<h:outputText value="#{pfisica.id}" />
 				</p:column>
 
 				<p:column headerText="Nome" filterBy="#{pessoa.pessoa.nome}">
 					<h:outputText value="#{pfisica.pessoa.nome}" />
 				</p:column>
-				
-				<p:column headerText="CPF" filterBy="#{pessoa.cpf}">
-					<h:outputText value="#{pfisica.cpf}"/>
+
+				<p:column headerText="CPF" filterBy="#{pessoa.cpf}"
+					style="width: 12%; text-align: center;">
+					<h:outputText value="#{pfisica.cpf}" />
 				</p:column>
 
-				<p:column headerText="Opções">
+				<p:column headerText="Opções" style="width: 12%; text-align: center;">
 					<p:button value="Editar"
 						outcome="/pages/pessoaFisica/pessoaFisicaCadastro.xhtml?faces-redirect=true">
-						<f:param name="pfacao" value="editar"/>
 						<f:param name="pfId" value="#{pfisica.id}" />
+						<f:param name="pfacao" value="editar" />
 					</p:button>
 					<p:button value="Excluir"
 						outcome="/pages/pessoaFisica/pessoaFisicaCadastro.xhtml?faces-redirect=true">
-						<f:param name="pfacao" value="excluir"/>
 						<f:param name="pfId" value="#{pfisica.id}" />
+						<f:param name="pfacao" value="excluir" />
 					</p:button>
 				</p:column>
 

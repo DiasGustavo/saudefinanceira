@@ -15,6 +15,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Table(name = "tbl_pessoa_fisica")
@@ -28,10 +34,13 @@ public class PessoaFisica {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_pessoa_fisica")
 	private Long id;
-	
+	@NotEmpty(message = "o campo CPF é obrigatório")
+	@CPF(message = "O CPF informado não é válido")
 	@Column(name = "cpf", length = 14, nullable = false, unique = true)
 	private String cpf;
 	
+	@NotEmpty(message = "o campo RG é obrigatório")
+	@Size(min = 1, max = 14, message= "RG deve ter entre 1 e 14 caracteres")
 	@Column(name = "rg", length = 14, nullable = false)
 	private String rg;
 	
@@ -47,9 +56,12 @@ public class PessoaFisica {
 	@Column(name = "celular", length = 15)
 	private String celular;
 	
+	@NotEmpty(message = "o campo email é obrigatório")
+	@Email(message = "Email informado não é válido")
 	@Column(name = "email", length = 50)
 	private String email;
 	
+	@NotEmpty(message = "o campo sexo é obrigatório")
 	@Column(name = "sexo", length = 1)
 	private String sexo;
 	
@@ -60,6 +72,7 @@ public class PessoaFisica {
 	@Column(name = "dt_nascimento")
 	private Date dataNascimento;
 	
+	@NotNull(message = "o campo pessoa é obrigatório")
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_pessoa", referencedColumnName = "id_pessoa", nullable = false)
 	private Pessoa pessoa;

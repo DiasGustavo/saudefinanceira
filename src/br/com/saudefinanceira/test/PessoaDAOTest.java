@@ -21,7 +21,7 @@ public class PessoaDAOTest {
 		pessoa.setObservacao("usuário padrão.");
 		
 		EnderecoDAO edao = new EnderecoDAO();
-		Endereco endereco = edao.buscarPorCodigo(2L);
+		Endereco endereco = edao.buscarPorCodigo(1L);
 		pessoa.setEndereco(endereco);
 		
 		PessoaDAO pdao = new PessoaDAO();

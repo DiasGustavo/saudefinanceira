@@ -13,7 +13,7 @@ import br.com.saudefinanceira.domain.PessoaFisica;
 public class PessoaFisicaDAOTest {
 
 	@Test
-	@Ignore
+	
 	public void salvar(){
 		PessoaFisica pfisica = new PessoaFisica();
 		
@@ -28,7 +28,7 @@ public class PessoaFisicaDAOTest {
 		pfisica.setObservacao("pessoa fisica exemplo");
 		
 		PessoaDAO pdao = new PessoaDAO();
-		Pessoa pessoa = pdao.buscarPorCodigo(2L);
+		Pessoa pessoa = pdao.buscarPorCodigo(1L);
 		pfisica.setPessoa(pessoa);
 		
 		PessoaFisicaDAO pfdao = new PessoaFisicaDAO();
@@ -37,7 +37,7 @@ public class PessoaFisicaDAOTest {
 	}
 	
 	@Test
-	
+	@Ignore
 	public void listar(){
 		PessoaFisicaDAO pdao = new PessoaFisicaDAO();
 		

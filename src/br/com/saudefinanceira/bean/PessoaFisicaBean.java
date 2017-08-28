@@ -21,8 +21,14 @@ public class PessoaFisicaBean {
 	private List<Pessoa> listaPessoas;
 	
 	private String acao;
+	private Long codigo;	
 	
-	
+	public Long getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
 	public String getAcao() {
 		return acao;
 	}
@@ -30,6 +36,9 @@ public class PessoaFisicaBean {
 		this.acao = acao;
 	}
 	public PessoaFisica getPfisicaCadastro() {
+		if (pfisicaCadastro == null){
+			pfisicaCadastro = new PessoaFisica();
+		}
 		return pfisicaCadastro;
 	}
 	public void setPfisicaCadastro(PessoaFisica pfisicaCadastro) {
@@ -82,13 +91,7 @@ public class PessoaFisicaBean {
 	
 	public void carregarDados(){
 		try{
-			acao = FacesUtil.getParam("pfacao");
-			
-			String valor = FacesUtil.getParam("pfId");
-			
-			if(valor != null){
-				Long codigo = Long.parseLong(valor);
-				
+			if(codigo != null){
 				PessoaFisicaDAO pfdao = new PessoaFisicaDAO();
 				pfisicaCadastro = pfdao.buscarPorCodigo(codigo);
 			}else{

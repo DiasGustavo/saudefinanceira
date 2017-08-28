@@ -28,11 +28,11 @@
 				<f:facet name="footer">
 					<p:button value="Novo"
 						outcome="/pages/pessoa/pessoaCadastro.xhtml?faces-redirect=true" >
-						<f:param name="pesacao" value="novo"/>
+						<f:param name="pessacao" value="novo"/>
 					</p:button>
 				</f:facet>
 				<p:column headerText="Código" filterBy="#{pessoa.id}"
-					sortBy="#{pessoa.id}">
+					sortBy="#{pessoa.id}" style="width: 9%;">
 					<h:outputText value="#{pessoa.id}" />
 				</p:column>
 
@@ -40,16 +40,16 @@
 					<h:outputText value="#{pessoa.nome}" />
 				</p:column>
 
-				<p:column headerText="Opções">
+				<p:column headerText="Opções" style="width: 12%;">
 					<p:button value="Editar"
 						outcome="/pages/pessoa/pessoaCadastro.xhtml?faces-redirect=true">
-						<f:param name="pesacao" value="editar"/>
 						<f:param name="pessId" value="#{pessoa.id}" />
+						<f:param name="pessacao" value="editar"/>
 					</p:button>
 					<p:button value="Excluir"
 						outcome="/pages/pessoa/pessoaCadastro.xhtml?faces-redirect=true">
-						<f:param name="pesacao" value="excluir"/>
 						<f:param name="pessId" value="#{pessoa.id}" />
+						<f:param name="pessacao" value="excluir"/>
 					</p:button>
 				</p:column>
 

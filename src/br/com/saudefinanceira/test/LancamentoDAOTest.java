@@ -1,6 +1,7 @@
 package br.com.saudefinanceira.test;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Ignore;
@@ -20,9 +21,12 @@ public class LancamentoDAOTest {
 		
 		lancamento.setDescricao("descrição padrão.");
 		lancamento.setTotal(new BigDecimal(10.0));
+		lancamento.setCondicaoPagamento("a vista");
+		lancamento.setDataLancamento(new Date());
+		lancamento.setDataVencimento(new Date());
 		
 		PessoaDAO pdao = new PessoaDAO();
-		Pessoa pessoa = pdao.buscarPorCodigo(2L);
+		Pessoa pessoa = pdao.buscarPorCodigo(1L);
 		
 		lancamento.setPessoa(pessoa);
 		
@@ -65,7 +69,7 @@ public class LancamentoDAOTest {
 	@Ignore
 	public void excluir(){
 		LancamentoDAO ldao = new LancamentoDAO();
-		Lancamento lancamento = ldao.buscarPorCodigo(1L);
+		Lancamento lancamento = ldao.buscarPorCodigo(2L);
 		
 		ldao.excluir(lancamento);
 	}

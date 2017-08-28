@@ -21,7 +21,16 @@ public class UsuariosBean {
 	private List<PessoaFisica> listaPessoasFisicas;
 	
 	private String acao;
+	private Long codigo;
 	
+	public Long getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
+
 	public String getAcao() {
 		return acao;
 	}
@@ -30,7 +39,10 @@ public class UsuariosBean {
 		this.acao = acao;
 	}
 
-	public Usuarios getUsuarioCadastro() {		
+	public Usuarios getUsuarioCadastro() {
+		if (usuarioCadastro == null){
+			usuarioCadastro = new Usuarios();
+		}
 		return usuarioCadastro;
 	}
 
@@ -90,13 +102,7 @@ public class UsuariosBean {
 	
 	public void carregarDados(){
 		try{
-			acao = FacesUtil.getParam("useracao");
-			
-			String valor = FacesUtil.getParam("userId");
-			
-			if(valor != null){
-				Long codigo = Long.parseLong(valor);
-				
+			if(codigo != null){
 				UsuariosDAO udao = new UsuariosDAO();
 				usuarioCadastro = udao.buscarPorCodigo(codigo);
 			}else{

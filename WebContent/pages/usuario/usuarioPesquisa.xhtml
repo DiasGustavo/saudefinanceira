@@ -32,7 +32,7 @@
 					</p:button>
 				</f:facet>
 				<p:column headerText="Código" filterBy="#{usuario.id}"
-					sortBy="#{usuario.id}">
+					sortBy="#{usuario.id}" style="width: 9%;">
 					<h:outputText value="#{usuario.id}" />
 				</p:column>
 
@@ -44,20 +44,20 @@
 					<h:outputText value="#{usuario.login}"/>
 				</p:column>
 				
-				<p:column headerText="Status" >
+				<p:column headerText="Status" style="width: 4%;" >
 					<h:outputText value="#{usuario.status}"/>
 				</p:column>
 
-				<p:column headerText="Opções">
+				<p:column headerText="Opções" style="width: 12%;">
 					<p:button value="Editar"
 						outcome="/pages/usuario/usuarioCadastro.xhtml?faces-redirect=true">
-						<f:param name="useracao" value="editar"/>
 						<f:param name="userId" value="#{usuario.id}" />
+						<f:param name="useracao" value="editar"/>
 					</p:button>
 					<p:button value="Excluir"
 						outcome="/pages/usuario/usuarioCadastro.xhtml?faces-redirect=true">
-						<f:param name="useracao" value="excluir"/>
 						<f:param name="userId" value="#{usuario.id}" />
+						<f:param name="useracao" value="excluir"/>
 					</p:button>
 				</p:column>
 

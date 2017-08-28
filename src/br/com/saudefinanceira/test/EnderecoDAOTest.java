@@ -11,7 +11,7 @@ import br.com.saudefinanceira.domain.Endereco;
 public class EnderecoDAOTest {
 
 	@Test
-	@Ignore
+	
 	public void salvar(){
 		Endereco endereco = new Endereco();
 		
@@ -58,6 +58,7 @@ public class EnderecoDAOTest {
 	}
 	
 	@Test
+	@Ignore
 	public void editar(){
 		EnderecoDAO edao = new EnderecoDAO();
 		Endereco endereco = edao.buscarPorCodigo(2L);

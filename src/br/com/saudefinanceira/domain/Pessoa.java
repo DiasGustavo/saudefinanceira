@@ -11,6 +11,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "tbl_pessoa")
@@ -25,12 +29,15 @@ public class Pessoa {
 	@Column(name = "id_pessoa")
 	private Long id;
 	
+	@NotEmpty(message = "o campo nome é obrigatório")
+	@Size(min = 3, max = 50, message= "Nome deve ter entre 3 e 50 caracteres")
 	@Column(name="nome", length=50, nullable=false)
 	private String nome;
 	
 	@Column(name="observacao", length=200)
 	private String observacao;
 	
+	@NotNull(message = "o campo endereço é obrigatório")
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="endereco_fk", referencedColumnName="id_endereco", nullable = false)
 	private Endereco endereco;

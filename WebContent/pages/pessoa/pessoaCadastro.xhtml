@@ -9,6 +9,9 @@
 <ui:composition template="/templates/modeloGeral.xhtml">
 	<ui:define name="metadata">
 		<f:metadata>
+			<f:viewParam name="pessacao" value="#{pessoaBean.acao}"/>
+			<f:viewParam name="pessId" value="#{pessoaBean.codigo}"/>
+			
 			<f:event listener="#{pessoaBean.carregarDados}" type="preRenderView" />
 		</f:metadata>
 	</ui:define>
@@ -26,24 +29,31 @@
 			<h:panelGrid id="pnlPessoaDados" columns="3">
 				<p:outputLabel value="Nome:" />
 				<p:inputText maxlength="50" size="30"
-					value="#{pessoaBean.pessoaCadastro.nome}">
+					value="#{pessoaBean.pessoaCadastro.nome}"
+					readonly="#{pessoaBean.acao == 'excluir'}">
+					<f:validateBean />
 				</p:inputText>
 				<p:outputLabel />
 
 				<p:outputLabel value="Endereço:" />
-				<p:selectOneMenu value="#{pessoaBean.pessoaCadastro.endereco}"
+				<p:selectOneMenu id="listaEndereco"
+					value="#{pessoaBean.pessoaCadastro.endereco}"
 					converter="enderecoConverter" filter="true"
 					filterMatchMode="startsWith" style="width: 99%;">
 					<f:selectItem itemValue="" itemLabel="Selecione o endereço" />
 					<f:selectItems value="#{pessoaBean.listaEnderecos}" var="endereco"
 						itemValue="#{endereco}"
 						itemLabel="#{endereco.logradouro}, #{endereco.numero}" />
+					<f:validateBean />
 				</p:selectOneMenu>
-				<p:commandButton value="Novo" />
+				<p:commandButton value="Novo"
+					oncomplete="PF ('DlgEndereco').show();" />
 
 				<p:outputLabel value="Observações:" />
 				<p:inputText maxlength="50" size="30"
-					value="#{pessoaBean.pessoaCadastro.observacao}">
+					value="#{pessoaBean.pessoaCadastro.observacao}"
+					readonly="#{pessoaBean.acao == 'excluir'}">
+					<f:validateBean />
 				</p:inputText>
 				<p:outputLabel />
 			</h:panelGrid>
@@ -56,8 +66,8 @@
 					actionListener="#{pessoaBean.salvar}"
 					update=":msgGlobal :formCadPessoa:pnlPessoaDados"
 					rendered="#{pessoaBean.acao == 'novo'}" />
-				<p:commandButton value="Voltar"
-					action="/pages/pessoa/pessoaPesquisa.xhtml?faces-redirect=true" />
+				<p:button value="Voltar"
+					outcome="/pages/pessoa/pessoaPesquisa.xhtml?faces-redirect=true" />
 				<p:commandButton value="Editar"
 					actionListener="#{pessoaBean.editar}" update=":msgGlobal"
 					rendered="#{pessoaBean.acao == 'editar'}" />
@@ -66,6 +76,66 @@
 					rendered="#{pessoaBean.acao == 'excluir'}" />
 			</h:panelGrid>
 		</h:form>
+
+		<p:dialog closable="true" draggable="true" modal="true"
+			resizable="false" header="Cadastro Endereço" widgetVar="DlgEndereco"
+			appendTo="@(body)">
+			<h:form id="formCadEndereco">
+				<h:panelGrid id="pnlEnderecoDados" columns="2">
+					<p:outputLabel value="Rua:" />
+					<p:inputText maxlength="50" size="30"
+						value="#{enderecoBean.enderecoCadastrado.logradouro}">						
+						<f:validateBean />
+					</p:inputText>
+
+					<p:outputLabel value="Número:" />
+					<p:inputText maxlength="30" size="30"
+						value="#{enderecoBean.enderecoCadastrado.numero}">
+						<f:validateBean />
+					</p:inputText>
+
+					<p:outputLabel value="Complemento:" />
+					<p:inputText maxlength="50" size="30"
+						value="#{enderecoBean.enderecoCadastrado.complemento}">
+						<f:validateBean />
+					</p:inputText>
+
+					<p:outputLabel value="Bairro:" />
+					<p:inputText maxlength="50" size="30"
+						value="#{enderecoBean.enderecoCadastrado.bairro}">
+						<f:validateBean />
+					</p:inputText>
+
+					<p:outputLabel value="CEP:" />
+					<p:inputMask mask="99999-999" size="10"
+						value="#{enderecoBean.enderecoCadastrado.cep}">
+						<f:validateBean />
+					</p:inputMask>
+
+					<p:outputLabel value="Cidade:" />
+					<p:inputText maxlength="50" size="30"
+						value="#{enderecoBean.enderecoCadastrado.cidade}">
+						<f:validateBean />
+					</p:inputText>
+
+					<p:outputLabel value="Estado:" />
+					<p:inputText maxlength="30" size="30"
+						value="#{enderecoBean.enderecoCadastrado.estado}">
+						<f:validateBean />
+					</p:inputText>
+
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{enderecoBean.salvar}"
+						update=":msgGlobal :formCadPessoa:listaEndereco"
+						oncomplete="PF('DlgEndereco').hide();" />
+						
+					<p:commandButton value="Voltar" onclick="PF('DlgEndereco').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+		
 	</ui:define>
 </ui:composition>
 

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="lanacao" value="#{lancamentoBean.acao}" />
+			<f:viewParam name="lanId" value="#{lancamentoBean.codigo}" />
+			<f:event listener="#{lancamentoBean.carregarDados}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="formCadLancamento">
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Cadastro Pagamento" />
+				</f:facet>
+			</p:toolbar>
+			<p:separator />
+			<h:panelGrid id="pnlLancamentoDados" columns="6">
+				<p:outputLabel value="Fornecedor" />
+				<p:selectOneMenu id="listaPessoa"
+					value="#{lancamentoBean.lancamentoCadastro.pessoa}"
+					converter="pessoaConverter" filter="true" style="width: 250px;">
+					<f:selectItem itemValue="" itemLabel="Selecione a pessoa" />
+					<f:selectItems value="#{lancamentoBean.listaPessoas}" var="pessoa"
+						itemValue="#{pessoa}" itemLabel="#{pessoa.nome}" />
+					<f:validateBean />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Data Lançamento" />
+				<p:calendar
+					value="#{lancamentoBean.lancamentoCadastro.dataLancamento}"
+					pattern="dd/MM/yyyy" mask="true" mode="popup"
+					readonly="#{lancamentoBean.acao == 'excluir'}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+					<f:validateBean />
+				</p:calendar>
+
+				<p:outputLabel value="Data Vencimento" />
+				<p:calendar
+					value="#{lancamentoBean.lancamentoCadastro.dataVencimento}"
+					pattern="dd/MM/yyyy" mask="true" mode="popup"
+					readonly="#{lancamentoBean.acao == 'excluir'}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+					<f:validateBean />
+				</p:calendar>
+			</h:panelGrid>
+
+			<p:commandButton value="Produto/Serviço" icon="ui-icon-circle-plus"
+				style="margin-top: 1%" oncomplete="PF ('DlgPagamento').show();" />
+			
+
+			<p:dataTable id="tblitemLancamento"
+				emptyMessage="Nenhum registro encontrado."
+				value="#{lancamentoBean.listaDespesas}" var="despesa" rows="5"
+				paginator="true">
+
+				<p:column headerText="Produto/Serviço">
+					<h:outputText value="#{despesa.item.descricao}" />
+				</p:column>
+
+				<p:column headerText="Quantidade">
+					<h:outputText value="#{despesa.quantidade}" />
+				</p:column>
+
+				<p:column headerText="SubTotal">
+					<h:outputText value="#{despesa.valorUnitario}">
+						<f:convertNumber pattern="0.00" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Opções" style="width: 7%;">
+					<p:commandButton value="Remover" actionListener="#{lancamentoBean.removerDespesa(despesa)}"
+					update=":formCadLancamento:tblitemLancamento"/>
+				</p:column>	
+
+			</p:dataTable>
+
+			<p:toolbar style="margin-top: 1%">
+				<p:toolbarGroup align="left">
+					<p:commandButton value="Salvar" />
+					<p:commandButton value="Novo" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Editar" />
+					<p:commandButton value="Excluir" />
+					<p:commandButton value="Emitir Recibo" />
+					<p:commandButton value="voltar" />
+				</p:toolbarGroup>
+			</p:toolbar>
+		</h:form>
+		
+		<!-- Dialogo de produtos/serviços -->
+		<p:dialog closable="true" draggable="true" modal="true"
+			resizable="false" header="Pesquisa Produto/Serviço"
+			widgetVar="DlgPagamento" appendTo="@(body)" height="400" width="400">
+			<h:form id="formPagamento">
+				<p:dataTable emptyMessage="Nenhum registro encontrado."
+					value="#{lancamentoBean.listaItens}"
+					filteredValue="#{lancamentoBean.listaItensFiltrados}" var="item"
+					rows="7" paginator="true">
+
+					<p:column headerText="Código" filterBy="#{item.id}"
+						filterStyle="max-width: 90%; min-width: 90%" sortBy="#{item.id}"
+						style="width: 9%;">
+						<h:outputText value="#{item.id}" />
+					</p:column>
+
+					<p:column headerText="Descrição" filterBy="#{item.descricao}"
+						filterStyle="max-width: 98%; min-width: 98%;" style="width: 20%;">
+						<h:outputText value="#{item.descricao}" />
+					</p:column>
+
+					<p:column headerText="Valor" style="width: 9%;">
+						<h:outputText value="#{item.valor}">
+							<f:convertNumber pattern="0.00" />
+						</h:outputText>
+					</p:column>
+					<!-- botões -->
+					<p:column style="width:3%;text-align: center">
+						<p:commandButton icon="ui-icon-circle-check"
+							actionListener="#{lancamentoBean.adicionarDespesa(item)}"
+							update=":formCadLancamento:tblitemLancamento" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+		
+	</ui:define>
+</ui:composition>
+
+</html>

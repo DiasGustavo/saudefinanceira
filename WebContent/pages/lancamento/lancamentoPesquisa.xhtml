@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{lancamentoBean.listar}" type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<ui:define name="conteudo">
+
+		<h:form>
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Pesquisa Lançamentos" />
+				</f:facet>
+			</p:toolbar>
+
+			<p:dataTable emptyMessage="Nenhum registro encontrado."
+				value="#{lancamentoBean.listaLancamentos}"
+				filteredValue="#{lancamentoBean.listaLancamentosFiltrados}"
+				var="lancamento" rows="10" paginator="true">
+				<f:facet name="footer">
+					<p:button value="Novo"
+						outcome="/pages/lancamento/lancamentoCadastro.xhtml?faces-redirect=true">
+						<f:param name="lanacao" value="novo"/>
+					</p:button>
+				</f:facet>
+				<p:column headerText="Código" filterBy="#{lancamento.id}"
+					sortBy="#{lancamento.id}" style="width: 9%;">
+					<h:outputText value="#{lancamento.id}" />
+				</p:column>
+
+				<p:column headerText="Descrição" >
+					<h:outputText value="#{lancamento.descricao}" />
+				</p:column>
+
+				<p:column headerText="Data de Lançamento" filterBy="#{lancamento.dataLancamento}">
+					<h:outputText value="#{lancamento.dataLancamento}" />
+				</p:column>
+				<p:column headerText="Data de Vencimento" filterBy="#{lancamento.dataVencimento}">
+					<h:outputText value="#{lancamento.dataVencimento}" />
+				</p:column>
+				
+				<!-- botões -->
+				<p:column headerText="Opções" style="width: 12%;">
+					<p:button value="Editar"
+						outcome="/pages/lancamento/lancamentoCadastro.xhtml?faces-redirect=true">
+						<f:param name="lanacao" value="editar"/>
+						<f:param name="lanId" value="#{lancamento.id}" />
+					</p:button>
+					<p:button value="Excluir"
+						outcome="/pages/lancamento/lancamentoCadastro.xhtml?faces-redirect=true">
+						<f:param name="lanacao" value="excluir"/>
+						<f:param name="lanId" value="#{lancamento.id}" />
+					</p:button>
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -20,7 +20,16 @@ public class PessoaBean {
 	private List<Pessoa> listaPessoasFiltradas;
 	private List<Endereco> listaEnderecos;
 	
-	private String acao;	
+	private String acao;
+	private Long codigo;
+	
+	public Long getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
 
 	public String getAcao() {
 		return acao;
@@ -31,6 +40,9 @@ public class PessoaBean {
 	}
 
 	public Pessoa getPessoaCadastro() {
+		if (pessoaCadastro == null){
+			pessoaCadastro = new Pessoa();
+		}
 		return pessoaCadastro;
 	}
 
@@ -90,12 +102,7 @@ public class PessoaBean {
 
 	public void carregarDados() {
 		try {
-			acao = FacesUtil.getParam("pesacao");
-			
-			String valor = 	FacesUtil.getParam("pessId");
-			if (valor != null){
-				Long codigo = Long.parseLong(valor);
-				
+			if (codigo != null){
 				PessoaDAO pdao = new PessoaDAO();
 				pessoaCadastro = pdao.buscarPorCodigo(codigo);
 			}else{

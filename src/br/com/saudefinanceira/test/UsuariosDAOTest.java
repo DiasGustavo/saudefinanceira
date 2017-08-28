@@ -23,7 +23,7 @@ public class UsuariosDAOTest {
 		usuario.setStatus("A");
 		
 		PessoaFisicaDAO pfdao = new PessoaFisicaDAO();
-		PessoaFisica pfisica = pfdao.buscarPorCodigo(2L);
+		PessoaFisica pfisica = pfdao.buscarPorCodigo(1L);
 		
 		usuario.setPfisica(pfisica);
 		

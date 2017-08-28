@@ -11,6 +11,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "tbl_pessoa_juridica")
@@ -24,10 +29,13 @@ public class PessoaJuridica {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_pessoa_juridica")
 	private Long id;
-	
+	@NotEmpty(message = "o campo CNPJ é obrigatório")
+	@Size(min=1, max=18, message="o CNPJ deve ter entre 1 e 18 caracteres")
 	@Column(name = "cnpj", length = 18, nullable = false)
 	private String cnpj;
 	
+	@NotEmpty(message = "o campo razão social é obrigatório")
+	@Size(min=1, max=50, message="a razão social deve ter entre 1 e 50 caracteres")
 	@Column(name = "razao_social", length = 50, nullable = false)
 	private String razaoSocial;
 	
@@ -37,6 +45,8 @@ public class PessoaJuridica {
 	@Column(name = "insc_estadual", length = 15)
 	private String inscricaoEstadual;
 	
+	@NotEmpty(message = "o campo email é obrigatório")
+	@Email(message = "o email informado é inválido")
 	@Column(name = "email", length = 50)
 	private String email;
 	
@@ -49,6 +59,7 @@ public class PessoaJuridica {
 	@Column(name = "observacao", length = 50)
 	private String observacao;
 	
+	@NotNull(message = "o campo pessoa é obrigatório")
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_pessoa", referencedColumnName = "id_pessoa", nullable = false)
 	private Pessoa pessoa;

@@ -1,5 +1,7 @@
 package br.com.saudefinanceira.domain;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,8 +27,8 @@ public class Despesa {
 	@Column(name = "id_despesa")
 	private Long id;
 	
-	@Column(name = "categoria", length = 20)
-	private String categoria;
+	@Column(name = "valor_unitario", precision = 7, scale = 2, nullable = false)
+	private BigDecimal valorUnitario;
 	
 	@Column(name = "descricao", length = 50)
 	private String descricao;
@@ -50,12 +52,12 @@ public class Despesa {
 		this.id = id;
 	}
 
-	public String getCategoria() {
-		return categoria;
+	public BigDecimal getValorUnitario() {
+		return valorUnitario;
 	}
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
+	public void setValorUnitario(BigDecimal valorUnitario) {
+		this.valorUnitario = valorUnitario;
 	}
 
 	public String getDescricao() {
@@ -92,7 +94,33 @@ public class Despesa {
 
 	@Override
 	public String toString() {
-		return "Despesa [id=" + id + ", categoria=" + categoria + ", descricao=" + descricao + ", quantidade="
+		return "Despesa [id=" + id + ", valorUnitario=" + valorUnitario + ", descricao=" + descricao + ", quantidade="
 				+ quantidade + ", lancamento=" + lancamento + ", item=" + item + "]";
-	}	
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Despesa other = (Despesa) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
 }
