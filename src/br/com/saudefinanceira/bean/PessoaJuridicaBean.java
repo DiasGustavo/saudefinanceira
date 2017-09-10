@@ -5,8 +5,10 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import br.com.saudefinanceira.dao.EnderecoDAO;
 import br.com.saudefinanceira.dao.PessoaDAO;
 import br.com.saudefinanceira.dao.PessoaJuridicaDAO;
+import br.com.saudefinanceira.domain.Endereco;
 import br.com.saudefinanceira.domain.Pessoa;
 import br.com.saudefinanceira.domain.PessoaJuridica;
 import br.com.saudefinanceira.util.FacesUtil;
@@ -16,6 +18,9 @@ import br.com.saudefinanceira.util.FacesUtil;
 public class PessoaJuridicaBean {
 
 	private PessoaJuridica pjuridicaCadastro;
+	private Pessoa pessoaCadastro;
+	private Endereco enderecoCadastro;
+	
 	private List<PessoaJuridica> listaPessoasJuridicas;
 	private List<PessoaJuridica> listaPessoasJuridicasFiltradas;
 	private List<Pessoa> listaPessoas;
@@ -29,6 +34,29 @@ public class PessoaJuridicaBean {
 		}
 		return pjuridicaCadastro;
 	}
+	
+	public void setPessoaCadastro(Pessoa pessoaCadastro) {
+		this.pessoaCadastro = pessoaCadastro;
+	}
+	
+	public Pessoa getPessoaCadastro() {
+		if (pessoaCadastro == null){
+			pessoaCadastro = new Pessoa();
+		}
+		return pessoaCadastro;
+	}
+	
+	public void setEnderecoCadastro(Endereco enderecoCadastro) {
+		this.enderecoCadastro = enderecoCadastro;
+	}
+	
+	public Endereco getEnderecoCadastro() {
+		if (enderecoCadastro == null){
+			enderecoCadastro = new Endereco();
+		}
+		return enderecoCadastro;
+	}
+	
 	public void setPjuridicaCadastro(PessoaJuridica pjuridicaCadastro) {
 		this.pjuridicaCadastro = pjuridicaCadastro;
 	}
@@ -65,14 +93,29 @@ public class PessoaJuridicaBean {
 	
 	public void novo(){
 		pjuridicaCadastro = new PessoaJuridica();
+		pessoaCadastro = new Pessoa();
+		enderecoCadastro = new Endereco();
 	}
 	
 	public void salvar(){
 		try{
+			//Gravar o Endereço
+			EnderecoDAO edao = new EnderecoDAO();
+			Long enderecoCod = edao.salvar(enderecoCadastro);
+			//Grava os dados Pessoais
+			Endereco enderecoFK = edao.buscarPorCodigo(enderecoCod);
+			PessoaDAO pdao = new PessoaDAO();
+			pessoaCadastro.setEndereco(enderecoFK);
+			Long pessoaCod = pdao.salvar(pessoaCadastro);
+			//Grava os dados de pessoa jurídica
+			Pessoa pessoFK = pdao.buscarPorCodigo(pessoaCod);			
+			pjuridicaCadastro.setPessoa(pessoFK);
 			PessoaJuridicaDAO pjdao = new PessoaJuridicaDAO();
 			pjdao.salvar(pjuridicaCadastro);
 			
 			pjuridicaCadastro = new PessoaJuridica();
+			pessoaCadastro = new Pessoa();
+			enderecoCadastro = new Endereco();
 			
 			FacesUtil.addMsgInfo("Pessoa Jurídica cadastrada com sucesso");
 		}catch(RuntimeException ex){
@@ -94,12 +137,17 @@ public class PessoaJuridicaBean {
 			if (codigo != null){
 				PessoaJuridicaDAO pjdao = new PessoaJuridicaDAO();
 				pjuridicaCadastro = pjdao.buscarPorCodigo(codigo);
+				
+				PessoaDAO pdao = new PessoaDAO();
+				pessoaCadastro = pdao.buscarPorCodigo(pjuridicaCadastro.getPessoa().getId());
+				
+				EnderecoDAO edao = new EnderecoDAO();
+				enderecoCadastro = edao.buscarPorCodigo(pjuridicaCadastro.getPessoa().getEndereco().getId());
 			}else{
 				pjuridicaCadastro = new PessoaJuridica();
-			}
-			
-			PessoaDAO pdao = new PessoaDAO();
-			listaPessoas = pdao.listar();
+				pessoaCadastro = new Pessoa();
+				enderecoCadastro = new Endereco();
+			}			
 			
 		}catch(RuntimeException ex){
 			FacesUtil.addMsgErro("Ocorreu um erro ao carregar os dados das pessoas" + ex.getMessage());
@@ -111,7 +159,15 @@ public class PessoaJuridicaBean {
 			PessoaJuridicaDAO pjdao = new PessoaJuridicaDAO();
 			pjdao.editar(pjuridicaCadastro);
 			
+			PessoaDAO pdao = new PessoaDAO();
+			pdao.editar(pessoaCadastro);
+			
+			EnderecoDAO edao = new EnderecoDAO();
+			edao.editar(enderecoCadastro);
+			
 			pjuridicaCadastro = new PessoaJuridica();
+			pessoaCadastro = new Pessoa();
+			enderecoCadastro = new Endereco();
 			
 			FacesUtil.addMsgInfo("Pessoa Jurídica editada com sucesso");
 		}catch(RuntimeException ex){
@@ -124,7 +180,13 @@ public class PessoaJuridicaBean {
 			PessoaJuridicaDAO pjdao = new PessoaJuridicaDAO();
 			pjdao.excluir(pjuridicaCadastro);
 			
-			pjuridicaCadastro = new PessoaJuridica();
+			PessoaDAO pdao = new PessoaDAO();
+			pdao.excluir(pessoaCadastro);
+			
+			EnderecoDAO edao = new EnderecoDAO();
+			edao.excluir(enderecoCadastro);
+				
+			codigo = null;
 			
 			FacesUtil.addMsgInfo("Pessoa Jurídica excluída com sucesso");
 		}catch(RuntimeException ex){

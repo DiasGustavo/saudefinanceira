@@ -14,7 +14,7 @@
 
 			<f:event listener="#{pessoaJuridicaBean.carregarDados}"
 				type="preRenderView" />
-			<f:event listener="#{pessoaBean.carregarDados}" type="preRenderView" />
+
 		</f:metadata>
 	</ui:define>
 
@@ -24,221 +24,160 @@
 
 			<p:toolbar>
 				<f:facet name="left">
-					<h:outputText value="Cadastro Pessoas Jurídicas" />
+					<h:outputText value="Cadastro Pessoas Jurídica" />
 				</f:facet>
 			</p:toolbar>
 
-			<h:panelGrid id="pnlPessoaDados" columns="3">
 
-				<p:outputLabel value="Pessoa:" />
-				<p:selectOneMenu id="listaPessoa"
-					value="#{pessoaJuridicaBean.pjuridicaCadastro.pessoa}"
-					converter="pessoaConverter" filter="true"
-					filterMatchMode="startsWith" style="width: 99%;">
-					<f:selectItem itemValue="" itemLabel="Selecione a pessoa" />
-					<f:selectItems value="#{pessoaJuridicaBean.listaPessoas}"
-						var="pessoa" itemValue="#{pessoa}" itemLabel="#{pessoa.nome}" />
-					<f:validateBean />
-				</p:selectOneMenu>
-				<p:commandButton value="Novo" oncomplete="PF ('DlgPessoa').show();" />
-
-				<p:outputLabel value="CNPJ:" />
-				<p:inputMask mask="99.999.999/9999-99" size="14"
-					value="#{pessoaJuridicaBean.pjuridicaCadastro.cnpj}"
-					readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
-					<f:validateBean />
-				</p:inputMask>
-				<p:outputLabel />
-
-				<p:outputLabel value="Razão Social:" />
-				<p:inputText maxlength="50" size="30"
-					value="#{pessoaJuridicaBean.pjuridicaCadastro.razaoSocial}"
+			<h:panelGrid id="pnlPessoaDados" columns="2">
+				<p:outputLabel value="Nome:" />
+				<p:inputText maxlength="50" size="50"
+					value="#{pessoaJuridicaBean.pessoaCadastro.nome}"
 					readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
 					<f:validateBean />
 				</p:inputText>
 				<p:outputLabel />
-
-				<p:outputLabel value="Suframa:" />
-				<p:inputText maxlength="9" size="9"
-					value="#{pessoaJuridicaBean.pjuridicaCadastro.suframa}"
-					readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
-					<f:validateBean />
-				</p:inputText>
-				<p:outputLabel />
-
-				<p:outputLabel value="Inscrição Estadual:" />
-				<p:inputText maxlength="15" size="10"
-					value="#{pessoaJuridicaBean.pjuridicaCadastro.inscricaoEstadual}"
-					readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
-					<f:validateBean />
-				</p:inputText>
-				<p:outputLabel />
-
-				<p:outputLabel value="Email:" />
-				<p:inputText maxlength="50" size="30"
-					value="#{pessoaJuridicaBean.pjuridicaCadastro.email}"
-					readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
-					<f:validateBean />
-				</p:inputText>
-				<p:outputLabel />
-				
-				<p:outputLabel value="Telefone:" />
-				<p:inputMask mask="(99)9999-9999" size="13"
-					value="#{pessoaFisicaBean.pfisicaCadastro.telefone}"
-					readonly="#{pessoaFisicaBean.acao == 'excluir'}">
-					<f:validateBean />
-				</p:inputMask>
-				<p:outputLabel />
-
-				<p:outputLabel value="Celular:" />
-				<p:inputMask mask="(99)9999-9999" size="13"
-					value="#{pessoaFisicaBean.pfisicaCadastro.celular}"
-					readonly="#{pessoaFisicaBean.acao == 'excluir'}">
-					<f:validateBean />
-				</p:inputMask>
-				<p:outputLabel />		
-
-				<p:outputLabel value="Observações:" />
-				<p:inputTextarea maxlength="50" size="30"
-					value="#{pessoaFisicaBean.pfisicaCadastro.observacao}"
-					readonly="#{pessoaFisicaBean.acao == 'excluir'}">
-					<f:validateBean />
-				</p:inputTextarea>
-				<p:outputLabel />
-
 			</h:panelGrid>
 
+			<p:tabView id="tabvDados">
+				<p:tab title="Dados Pessoa Jurídica">
+					<h:panelGrid id="pnlPessoaDadosJuridico" columns="4">
+
+						<p:outputLabel value="CNPJ:" />
+						<p:inputMask mask="99.999.999/9999-99" size="14"
+							value="#{pessoaJuridicaBean.pjuridicaCadastro.cnpj}"
+							readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputMask>					
+
+						<p:outputLabel value="Razão Social:" />
+						<p:inputText maxlength="50" size="30"
+							value="#{pessoaJuridicaBean.pjuridicaCadastro.razaoSocial}"
+							readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputText>						
+
+						<p:outputLabel value="Suframa:" />
+						<p:inputText maxlength="9" size="9"
+							value="#{pessoaJuridicaBean.pjuridicaCadastro.suframa}"
+							readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputText>						
+
+						<p:outputLabel value="Inscrição Estadual:" />
+						<p:inputText maxlength="15" size="10"
+							value="#{pessoaJuridicaBean.pjuridicaCadastro.inscricaoEstadual}"
+							readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputText>					
+
+						<p:outputLabel value="Telefone:" />
+						<p:inputMask mask="(99)9999-9999" size="13"
+							value="#{pessoaFisicaBean.pfisicaCadastro.telefone}"
+							readonly="#{pessoaFisicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputMask>						
+
+						<p:outputLabel value="Celular:" />
+						<p:inputMask mask="(99)9999-9999" size="13"
+							value="#{pessoaFisicaBean.pfisicaCadastro.celular}"
+							readonly="#{pessoaFisicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputMask>	
+						
+						<p:outputLabel value="Email:" />
+						<p:inputText maxlength="50" size="30"
+							value="#{pessoaJuridicaBean.pjuridicaCadastro.email}"
+							readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputText>				
+					</h:panelGrid>
+				</p:tab>
+				<p:tab title="Endereço">
+					<h:panelGrid id="pnlEnderecoDados" columns="2">
+						<p:outputLabel value="Rua:" />
+						<p:inputText maxlength="50" size="30"
+							value="#{pessoaJuridicaBean.enderecoCadastro.logradouro}"
+							readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputText>
+
+						<p:outputLabel value="Número:" />
+						<p:inputText maxlength="30" size="30"
+							value="#{pessoaJuridicaBean.enderecoCadastro.numero}"
+							readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputText>
+
+						<p:outputLabel value="Complemento:" />
+						<p:inputText maxlength="50" size="30"
+							value="#{pessoaJuridicaBean.enderecoCadastro.complemento}"
+							readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputText>
+
+						<p:outputLabel value="Bairro:" />
+						<p:inputText maxlength="50" size="30"
+							value="#{pessoaJuridicaBean.enderecoCadastro.bairro}"
+							readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputText>
+
+						<p:outputLabel value="CEP:" />
+						<p:inputMask mask="99999-999" size="10"
+							value="#{pessoaJuridicaBean.enderecoCadastro.cep}"
+							readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputMask>
+
+						<p:outputLabel value="Cidade:" />
+						<p:inputText maxlength="50" size="30"
+							value="#{pessoaJuridicaBean.enderecoCadastro.cidade}"
+							readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputText>
+
+						<p:outputLabel value="Estado:" />
+						<p:inputText maxlength="30" size="30"
+							value="#{pessoaJuridicaBean.enderecoCadastro.estado}"
+							readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputText>
+
+					</h:panelGrid>
+				</p:tab>
+				<p:tab title="Observações">
+					<h:panelGrid columns="2" cellpadding="10">
+						<p:outputLabel value="Observações:" />
+						<p:inputTextarea rows="3" cols="33" queryDelay="750"
+							minQueryLength="4"
+							value="#{pessoaJuridicaBean.pessoaCadastro.observacao}"
+							readonly="#{pessoaJuridicaBean.acao == 'excluir'}">
+							<f:validateBean />
+						</p:inputTextarea>
+					</h:panelGrid>
+				</p:tab>
+			</p:tabView>
+
 			<h:panelGrid columns="5">
-				<p:commandButton value="Novo"
+				<p:commandButton value="Novo" icon="ui-icon-plus"
 					actionListener="#{pessoaJuridicaBean.novo}"
-					update=":formCadPessoaJuridica:pnlPessoaDados"
+					update=":formCadPessoaJuridica:tabvDados"
 					rendered="#{pessoaJuridicaBean.acao == 'novo'}" />
-				<p:commandButton value="Salvar"
+				<p:commandButton value="Salvar" icon="ui-icon-disk"
 					actionListener="#{pessoaJuridicaBean.salvar}"
-					update=":msgGlobal :formCadPessoaJuridica:pnlPessoaDados"
+					update=":msgGlobal :formCadPessoaJuridica:tabvDados :formCadPessoaJuridica:pnlPessoaDados"
 					rendered="#{pessoaJuridicaBean.acao == 'novo'}" />
-				<p:button value="Voltar"
+				<p:button value="Voltar" icon="ui-icon-arrowreturnthick-1-w"
 					outcome="/pages/pessoaJuridica/pessoaJuridicaPesquisa.xhtml?faces-redirect=true" />
-				<p:commandButton value="Editar"
+				<p:commandButton value="Editar" icon="ui-icon-pencil"
 					actionListener="#{pessoaJuridicaBean.editar}" update=":msgGlobal"
 					rendered="#{pessoaJuridicaBean.acao == 'editar'}" />
-				<p:commandButton value="Excluir"
+				<p:commandButton value="Excluir" icon="ui-icon-close"
 					actionListener="#{pessoaJuridicaBean.excluir}" update=":msgGlobal"
 					rendered="#{pessoaJuridicaBean.acao == 'excluir'}" />
 			</h:panelGrid>
 		</h:form>
-		<!-- Dialogo para o cadastrado de uma pessoa -->
-		<p:dialog closable="true" draggable="true" modal="true"
-			resizable="false" header="Cadastro Pessoa" widgetVar="DlgPessoa"
-			appendTo="@(body)">
-			<h:form id="formCadPessoa">
-				<h:panelGrid id="pnlPessoaDados" columns="3">
-					<p:outputLabel value="Nome:" />
-					<p:inputText maxlength="50" size="30"
-						value="#{pessoaBean.pessoaCadastro.nome}"
-						readonly="#{pessoaBean.acao == 'excluir'}">
-						<f:validateBean />
-					</p:inputText>
-					<p:outputLabel />
-
-					<p:outputLabel value="Endereço:" />
-					<p:selectOneMenu id="listaEndereco"
-						value="#{pessoaBean.pessoaCadastro.endereco}"
-						converter="enderecoConverter" filter="true"
-						filterMatchMode="startsWith" style="width: 99%;">
-						<f:selectItem itemValue="" itemLabel="Selecione o endereço" />
-						<f:selectItems value="#{pessoaBean.listaEnderecos}" var="endereco"
-							itemValue="#{endereco}"
-							itemLabel="#{endereco.logradouro}, #{endereco.numero}" />
-						<f:validateBean />
-					</p:selectOneMenu>
-					<p:commandButton value="Novo" onclick="PF ('DlgEndereco').show();" />
-
-					<p:outputLabel value="Observações:" />
-					<p:inputText maxlength="50" size="30"
-						value="#{pessoaBean.pessoaCadastro.observacao}"
-						readonly="#{pessoaBean.acao == 'excluir'}">
-						<f:validateBean />
-					</p:inputText>
-					<p:outputLabel />
-				</h:panelGrid>
-				<h:panelGrid columns="2">
-					<p:commandButton value="Salvar"
-						actionListener="#{pessoaBean.salvar}"
-						update=":msgGlobal :formCadPessoaJuridica:listaPessoa"
-						oncomplete="PF('DlgPessoa').hide();" />
-
-					<p:commandButton value="Voltar" onclick="PF('DlgPessoa').hide();" />
-				</h:panelGrid>
-			</h:form>
-		</p:dialog>
-		<!-- Dialogo para o cadastro do endereço -->
-		<p:dialog closable="true" draggable="true" modal="true"
-			resizable="false" header="Cadastro Endereço" widgetVar="DlgEndereco"
-			appendTo="@(body)">
-			<h:form id="formCadEndereco">
-				<h:panelGrid id="pnlEnderecoDados" columns="2">
-					<p:outputLabel value="Rua:" />
-					<p:inputText maxlength="50" size="30"
-						value="#{enderecoBean.enderecoCadastrado.logradouro}"
-						readonly="#{enderecoBean.acao == 'excluir'}">
-						<f:validateBean />
-					</p:inputText>
-
-					<p:outputLabel value="Número:" />
-					<p:inputText maxlength="30" size="30"
-						value="#{enderecoBean.enderecoCadastrado.numero}"
-						readonly="#{enderecoBean.acao == 'excluir'}">
-						<f:validateBean />
-					</p:inputText>
-
-					<p:outputLabel value="Complemento:" />
-					<p:inputText maxlength="50" size="30"
-						value="#{enderecoBean.enderecoCadastrado.complemento}"
-						readonly="#{enderecoBean.acao == 'excluir'}">
-						<f:validateBean />
-					</p:inputText>
-
-					<p:outputLabel value="Bairro:" />
-					<p:inputText maxlength="50" size="30"
-						value="#{enderecoBean.enderecoCadastrado.bairro}"
-						readonly="#{enderecoBean.acao == 'excluir'}">
-						<f:validateBean />
-					</p:inputText>
-
-					<p:outputLabel value="CEP:" />
-					<p:inputMask mask="99999-999" size="10"
-						value="#{enderecoBean.enderecoCadastrado.cep}"
-						readonly="#{enderecoBean.acao == 'excluir'}">
-						<f:validateBean />
-					</p:inputMask>
-
-					<p:outputLabel value="Cidade:" />
-					<p:inputText maxlength="50" size="30"
-						value="#{enderecoBean.enderecoCadastrado.cidade}"
-						readonly="#{enderecoBean.acao == 'excluir'}">
-						<f:validateBean />
-					</p:inputText>
-
-					<p:outputLabel value="Estado:" />
-					<p:inputText maxlength="30" size="30"
-						value="#{enderecoBean.enderecoCadastrado.estado}"
-						readonly="#{enderecoBean.acao == 'excluir'}">
-						<f:validateBean />
-					</p:inputText>
-
-				</h:panelGrid>
-
-				<h:panelGrid columns="2">
-					<p:commandButton value="Salvar"
-						actionListener="#{enderecoBean.salvar}"
-						update=":msgGlobal :formCadPessoa:listaEndereco"
-						oncomplete="PF('DlgEndereco').hide();" />
-
-					<p:commandButton value="Voltar" onclick="PF('DlgEndereco').hide();" />
-				</h:panelGrid>
-			</h:form>
-		</p:dialog>
 	</ui:define>
 
 </ui:composition>
