@@ -30,6 +30,7 @@
 		<mapping class="br.com.saudefinanceira.domain.Receita"/>
 		<mapping class="br.com.saudefinanceira.domain.Despesa"/>
 		<mapping class="br.com.saudefinanceira.domain.Item"/>
+		<mapping class="br.com.saudefinanceira.domain.CentroCusto"/>
 		
 	</session-factory>
 </hibernate-configuration>

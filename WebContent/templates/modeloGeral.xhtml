@@ -12,6 +12,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Saúde Financeira</title>
 	<h:outputStylesheet library="css" name="estilos.css" />
+	<h:outputScript library="js" name="locale-primefaces.js" />
+	
 </h:head>
 <h:body>
 	<!-- Mensagem Geral -->
@@ -19,15 +21,15 @@
 	
 	<p:layout fullPage="true">
 		<!-- topo -->
-		<p:layoutUnit size="85" position="north" resizable="false"
+		<p:layoutUnit size="100" position="north" resizable="false"
 			collapsible="false" closable="false">
 			<p:graphicImage value="/images/logo.png"></p:graphicImage>
 		</p:layoutUnit>
 		
 		<!-- rodapé -->
-		<p:layoutUnit header="Desenvolvido por Gustavo Dias" position="south"
+		<!-- <p:layoutUnit header="Desenvolvido por Gustavo Dias" position="south"
 			resizable="false" collapsible="false" closable="false">
-		</p:layoutUnit>
+		</p:layoutUnit>  -->
 		
 		<!-- menu -->
 		<p:layoutUnit size="200" position="west" resizable="false"
@@ -45,7 +47,7 @@
 						<p:menuitem value="Produto/Serviço" outcome="/pages/item/itemPesquisa.xhtml" />
 					</p:submenu>
 					<p:submenu label="Pagamentos">
-						<p:menuitem value="Novo Pagamento" outcome="/pages/pagamento/pagamentoCadastro.xhtml" />
+						<p:menuitem value="Pagamentos" outcome="/pages/pagamento/pagamentoPesquisa.xhtml" />
 					</p:submenu>
 					<p:submenu label="Recebimentos">
 						<p:menuitem value="Novo Recebimento" outcome="/pages/recebimento/recebimentoCadastro.xhtml" />

@@ -11,13 +11,14 @@ import br.com.saudefinanceira.util.HibernateUtil;
 
 public class PessoaDAO {
 
-	public void salvar(Pessoa pessoa){
+	public Long salvar(Pessoa pessoa){
 		Session sessao = HibernateUtil.getSessionFactory().openSession();
 		Transaction transacao = null;
+		Long codigo = null;
 		
 		try{
 			transacao = sessao.beginTransaction();
-			sessao.save(pessoa);
+			codigo = (Long) sessao.save(pessoa);
 			transacao.commit();
 		}catch (RuntimeException ex){
 			if (transacao != null){
@@ -27,6 +28,7 @@ public class PessoaDAO {
 		}finally{
 			sessao.close();
 		}
+		return codigo;
 	}
 	
 	@SuppressWarnings("unchecked")

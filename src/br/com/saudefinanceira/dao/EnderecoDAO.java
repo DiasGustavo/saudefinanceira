@@ -11,12 +11,14 @@ import br.com.saudefinanceira.util.HibernateUtil;
 
 public class EnderecoDAO {
 
-	public void salvar(Endereco endereco) {
+	public Long salvar(Endereco endereco) {
 		Session sessao = HibernateUtil.getSessionFactory().openSession();
 		Transaction transacao = null;
+		Long codigo = null;
+		
 		try{
 			transacao = sessao.beginTransaction();
-			sessao.save(endereco);
+			codigo = (Long) sessao.save(endereco);
 			transacao.commit();
 			
 		}catch(RuntimeException ex){
@@ -27,7 +29,7 @@ public class EnderecoDAO {
 		} finally{
 			sessao.close();
 		}
-		
+		return codigo;
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -25,38 +25,57 @@
 			</p:toolbar>
 			<p:separator />
 			<h:panelGrid id="pnlLancamentoDados" columns="6">
-				<p:outputLabel value="Fornecedor" />
+				<p:outputLabel value="Fornecedor: " />
 				<p:selectOneMenu id="listaPessoa"
 					value="#{lancamentoBean.lancamentoCadastro.pessoa}"
-					converter="pessoaConverter" filter="true" style="width: 250px;">
+					converter="pessoaConverter" filter="true" style="width: 228px;">
 					<f:selectItem itemValue="" itemLabel="Selecione a pessoa" />
 					<f:selectItems value="#{lancamentoBean.listaPessoas}" var="pessoa"
 						itemValue="#{pessoa}" itemLabel="#{pessoa.nome}" />
 					<f:validateBean />
 				</p:selectOneMenu>
 
-				<p:outputLabel value="Data Lançamento" />
+				<p:outputLabel id="dtLancamento" value="Data Lançamento: " />
 				<p:calendar
 					value="#{lancamentoBean.lancamentoCadastro.dataLancamento}"
-					pattern="dd/MM/yyyy" mask="true" mode="popup"
-					readonly="#{lancamentoBean.acao == 'excluir'}">
-					<f:convertDateTime pattern="dd/MM/yyyy" />
+					pattern="dd/MM/yyyy" mask="true" mode="popup" size="8" locale="pt"
+					showOn="button">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
 					<f:validateBean />
 				</p:calendar>
 
-				<p:outputLabel value="Data Vencimento" />
+				<p:outputLabel id="dtVencimento" value="Data Vencimento: " />
 				<p:calendar
 					value="#{lancamentoBean.lancamentoCadastro.dataVencimento}"
-					pattern="dd/MM/yyyy" mask="true" mode="popup"
-					readonly="#{lancamentoBean.acao == 'excluir'}">
-					<f:convertDateTime pattern="dd/MM/yyyy" />
+					pattern="dd/MM/yyyy" mask="true" mode="popup" size="8" locale="pt" timeZone="GMT-3"
+					showOn="button">
+					<f:convertDateTime pattern="dd/MM/yyyy" locale="pt" timeZone="GMT-3"/>
 					<f:validateBean />
 				</p:calendar>
+
+				<p:outputLabel value="Descrição: " />
+				<p:inputTextarea id="descricao" rows="3" cols="33" queryDelay="750"
+					minQueryLength="4"
+					value="#{lancamentoBean.lancamentoCadastro.descricao}" />
+				<p:spacer />
+				<p:spacer />
+
+				<p:spacer />
+				<p:spacer />
+				<p:outputLabel value="Forma de Pagamento: " />
+				<p:selectOneMenu id="listaFormaPagamento"
+					value="#{lancamentoBean.lancamentoCadastro.condicaoPagamento}">
+					<f:selectItem itemValue=""
+						itemLabel="Selecione a Forma de Pagamento" />
+					<f:selectItem itemValue="a vista" itemLabel="a vista" />
+					<f:selectItem itemValue="a prazo" itemLabel="a prazo" />
+					<f:validateBean />
+				</p:selectOneMenu>
 			</h:panelGrid>
 
 			<p:commandButton value="Produto/Serviço" icon="ui-icon-circle-plus"
 				style="margin-top: 1%" oncomplete="PF ('DlgPagamento').show();" />
-			
+
 
 			<p:dataTable id="tblitemLancamento"
 				emptyMessage="Nenhum registro encontrado."
@@ -67,37 +86,60 @@
 					<h:outputText value="#{despesa.item.descricao}" />
 				</p:column>
 
-				<p:column headerText="Quantidade">
+				<p:column headerText="Quantidade"
+					style="width: 9%; text-align: center;">
 					<h:outputText value="#{despesa.quantidade}" />
 				</p:column>
 
-				<p:column headerText="SubTotal">
+				<p:column headerText="SubTotal"
+					style="width: 9%; text-align: center;">
 					<h:outputText value="#{despesa.valorUnitario}">
 						<f:convertNumber pattern="0.00" />
 					</h:outputText>
 				</p:column>
 
 				<p:column headerText="Opções" style="width: 7%;">
-					<p:commandButton value="Remover" actionListener="#{lancamentoBean.removerDespesa(despesa)}"
-					update=":formCadLancamento:tblitemLancamento"/>
-				</p:column>	
-
+					<p:commandButton value="Remover"
+						actionListener="#{lancamentoBean.removerDespesa(despesa)}"
+						update=":formCadLancamento:tblitemLancamento :formCadLancamento:txtTotal"
+						process="@this" />
+				</p:column>
 			</p:dataTable>
+			<h:outputText id="txtTotal"
+				value="Total: #{lancamentoBean.lancamentoCadastro.total}"
+				style="font-weight:bold" />
 
 			<p:toolbar style="margin-top: 1%">
 				<p:toolbarGroup align="left">
-					<p:commandButton value="Salvar" />
-					<p:commandButton value="Novo" />
+					<p:commandButton value="Salvar"
+						actionListener="#{lancamentoBean.salvar}"
+						update=":msgGlobal :formCadLancamento:tblitemLancamento 
+						:formCadLancamento:txtTotal 
+						:formCadLancamento:listaPessoa 
+						:formCadLancamento:dtLancamento 
+						:formCadLancamento:dtVencimento
+						:formCadLancamento:descricao
+						:formCadLancamento:listaFormaPagamento"
+						rendered="#{lancamentoBean.acao == 'novo'}" />
+					<p:commandButton value="Novo"
+						actionListener="#{lancamentoBean.novo}"
+						update=":formCadLancamento"
+						rendered="#{lancamentoBean.acao == 'excluir'}" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
-					<p:commandButton value="Editar" />
-					<p:commandButton value="Excluir" />
+					<p:commandButton value="Editar"
+						actionListener="#{lancamentoBean.editar}" update=":msgGlobal"
+						rendered="#{lancamentoBean.acao == 'editar'}" />
+					<p:commandButton value="Excluir"
+						actionListener="#{lancamentoBean.excluir}" update=":msgGlobal"
+						rendered="#{lancamentoBean.acao == 'excluir'}" />
 					<p:commandButton value="Emitir Recibo" />
-					<p:commandButton value="voltar" />
+					<p:button value="voltar"
+						outcome="/pages/pagamento/pagamentoPesquisa.xhtml?faces-redirect=true" />
 				</p:toolbarGroup>
 			</p:toolbar>
 		</h:form>
-		
+
 		<!-- Dialogo de produtos/serviços -->
 		<p:dialog closable="true" draggable="true" modal="true"
 			resizable="false" header="Pesquisa Produto/Serviço"
@@ -128,12 +170,12 @@
 					<p:column style="width:3%;text-align: center">
 						<p:commandButton icon="ui-icon-circle-check"
 							actionListener="#{lancamentoBean.adicionarDespesa(item)}"
-							update=":formCadLancamento:tblitemLancamento" />
+							update=":formCadLancamento:tblitemLancamento :formCadLancamento:txtTotal" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
 		</p:dialog>
-		
+
 	</ui:define>
 </ui:composition>
 

@@ -3,6 +3,7 @@ package br.com.saudefinanceira.bean;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -164,8 +165,6 @@ public class LancamentoBean {
 			if (codigo != null) {
 				LancamentoDAO ldao = new LancamentoDAO();
 				lancamentoCadastro = ldao.buscarPorCodigo(codigo);
-			} else {
-				lancamentoCadastro = new Lancamento();
 			}
 			PessoaDAO pdao = new PessoaDAO();
 			listaPessoas = pdao.listar();
@@ -176,6 +175,28 @@ public class LancamentoBean {
 		} catch (RuntimeException ex) {
 			FacesUtil.addMsgErro("Erro ao carregar os dados dos lançamentos" + ex.getMessage());
 		}
+	}
+
+	
+	public boolean dateToString(Object value, Object filter, Locale locale) {
+		String filterText = (filter == null) ? null : filter.toString().trim();// as datas que são passadas para filtrar
+		String dateText = (value == null) ? null : value.toString().trim();// as data que estão no banco
+				
+		if (filterText == null || filterText.equals("")) {
+			return true;
+		}
+
+		if (value == null) {
+			return false;
+		}
+		
+		if (filterText.equals(dateText)){
+			return true;
+		}else{
+			return false;
+		}
+
+		
 	}
 
 	public void adicionarDespesa(Item item) {
@@ -196,38 +217,59 @@ public class LancamentoBean {
 		if (posicaoEncontrada < 0) {
 			despesa.setQuantidade(1);
 			despesa.setValorUnitario(item.getValor());
+			despesa.setDescricao(item.getDescricao());
 
 			listaDespesas.add(despesa);
 		} else {
 			Despesa despesaTemp = listaDespesas.get(posicaoEncontrada);
 			despesa.setQuantidade(despesaTemp.getQuantidade() + 1);
 			despesa.setValorUnitario(item.getValor().multiply(new BigDecimal(despesa.getQuantidade())));
+			despesa.setDescricao(item.getDescricao());
 			listaDespesas.set(posicaoEncontrada, despesa);
 		}
+
+		lancamentoCadastro.setTotal(lancamentoCadastro.getTotal().add(item.getValor()));
+
 	}
-	
+
 	public void removerDespesa(Despesa despesa) {
-			
-			int posicaoEncontrada = -1;
 
-			for (int pos = 0; pos < listaDespesas.size() && posicaoEncontrada < 0; pos++) {
-				Despesa despesaTemp = listaDespesas.get(pos);
+		int posicaoEncontrada = -1;
 
-				if (despesaTemp.getItem().equals(despesa.getItem())) {
-					posicaoEncontrada = pos;
-				}
+		for (int pos = 0; pos < listaDespesas.size() && posicaoEncontrada < 0; pos++) {
+			Despesa despesaTemp = listaDespesas.get(pos);
+
+			if (despesaTemp.getItem().equals(despesa.getItem())) {
+				posicaoEncontrada = pos;
 			}
-			
-			if (posicaoEncontrada > -1) {
-				listaDespesas.remove(posicaoEncontrada);				
-			}
-			
+		}
+
+		if (posicaoEncontrada > -1) {
+			listaDespesas.remove(posicaoEncontrada);
+			lancamentoCadastro.setTotal(lancamentoCadastro.getTotal().subtract(despesa.getValorUnitario()));
+		}
+
 	}
 
 	public void salvar() {
 		try {
 			LancamentoDAO ldao = new LancamentoDAO();
-			ldao.salvar(lancamentoCadastro);
+			Long codigoLancamento = ldao.salvar(lancamentoCadastro);
+			Lancamento lancamentoFK = ldao.buscarPorCodigo(codigoLancamento);
+
+			for (Despesa despesa : listaDespesas) {
+				despesa.setLancamento(lancamentoFK);
+
+				DespesaDAO ddao = new DespesaDAO();
+				ddao.salvar(despesa);
+			}
+
+			lancamentoCadastro = new Lancamento();
+			lancamentoCadastro.setTotal(new BigDecimal("0.00"));
+			lancamentoCadastro.setDataLancamento(null);
+			lancamentoCadastro.setDataVencimento(null);
+
+			listaDespesas = new ArrayList<>();
 
 			FacesUtil.addMsgInfo("Lançamento cadastrado com sucesso");
 		} catch (RuntimeException ex) {

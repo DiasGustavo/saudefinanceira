@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="pfacao" value="#{pessoaFisicaBean.acao}" />
+			<f:viewParam name="pfId" value="#{pessoaFisicaBean.codigo}" />
+
+			<f:event listener="#{pessoaFisicaBean.carregarDados}"
+				type="preRenderView" />
+			<f:event listener="#{pessoaBean.carregarDados}" type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="formCadPessoaFisica" >
+
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Cadastro Pessoas Físicas" />
+				</f:facet>
+			</p:toolbar>
+			
+			<h:panelGrid id="pnlPessoaDados" columns="3">
+
+				<p:outputLabel value="Pessoa:" />
+				<p:selectOneMenu id="listaPessoa"
+					value="#{pessoaFisicaBean.pfisicaCadastro.pessoa}"
+					converter="pessoaConverter" filter="true"
+					filterMatchMode="startsWith" style="width: 99%;">
+					<f:selectItem itemValue="" itemLabel="Selecione a pessoa" />
+					<f:selectItems value="#{pessoaFisicaBean.listaPessoas}"
+						var="pessoa" itemValue="#{pessoa}" itemLabel="#{pessoa.nome}" />
+					<f:validateBean />
+				</p:selectOneMenu>
+				<p:commandButton value="Novo" oncomplete="PF ('DlgPessoa').show();" />
+
+				<p:outputLabel value="CPF:" />
+				<p:inputMask mask="999.999.999-99" size="14"
+					value="#{pessoaFisicaBean.pfisicaCadastro.cpf}"
+					readonly="#{pessoaFisicaBean.acao == 'excluir'}">
+					<f:validateBean />
+				</p:inputMask>
+				<p:outputLabel />
+
+
+				<p:outputLabel value="RG:" />
+				<p:inputText maxlength="14" size="10"
+					value="#{pessoaFisicaBean.pfisicaCadastro.rg}"
+					readonly="#{pessoaFisicaBean.acao == 'excluir'}">
+					<f:validateBean />
+				</p:inputText>
+				<p:outputLabel />
+
+
+
+				<p:outputLabel value="Pai:" />
+				<p:inputText maxlength="50" size="30"
+					value="#{pessoaFisicaBean.pfisicaCadastro.pai}"
+					readonly="#{pessoaFisicaBean.acao == 'excluir'}">
+					<f:validateBean />
+				</p:inputText>
+				<p:outputLabel />
+
+				<p:outputLabel value="Mãe:" />
+				<p:inputText maxlength="50" size="30"
+					value="#{pessoaFisicaBean.pfisicaCadastro.mae}"
+					readonly="#{pessoaFisicaBean.acao == 'excluir'}">
+					<f:validateBean />
+				</p:inputText>
+				<p:outputLabel />
+
+				<p:outputLabel value="Telefone:" />
+				<p:inputMask mask="(99)9999-9999" size="13"
+					value="#{pessoaFisicaBean.pfisicaCadastro.telefone}"
+					readonly="#{pessoaFisicaBean.acao == 'excluir'}">
+					<f:validateBean />
+				</p:inputMask>
+				<p:outputLabel />
+
+				<p:outputLabel value="Celular:" />
+				<p:inputMask mask="(99)9999-9999" size="13"
+					value="#{pessoaFisicaBean.pfisicaCadastro.celular}"
+					readonly="#{pessoaFisicaBean.acao == 'excluir'}">
+					<f:validateBean />
+				</p:inputMask>
+				<p:outputLabel />
+
+				<p:outputLabel value="Email:" />
+				<p:inputText maxlength="50" size="30"
+					value="#{pessoaFisicaBean.pfisicaCadastro.email}"
+					readonly="#{pessoaFisicaBean.acao == 'excluir'}">
+					<f:validateBean />
+				</p:inputText>
+				<p:outputLabel />
+
+				<p:outputLabel value="Sexo:" />
+				<p:selectOneMenu value="#{pessoaFisicaBean.pfisicaCadastro.sexo}">
+					<f:selectItem itemValue="" itemLabel="Selecione o sexo" />
+					<f:selectItem itemValue="M" itemLabel="Masculino" />
+					<f:selectItem itemValue="F" itemLabel="Feminino" />
+					<f:validateBean />
+				</p:selectOneMenu>
+				<p:outputLabel />
+
+				<p:outputLabel value="Data de Nascimento:" />
+				<p:calendar
+					value="#{pessoaFisicaBean.pfisicaCadastro.dataNascimento}"
+					pattern="dd/MM/yyyy" mask="true" mode="popup"
+					readonly="#{pessoaFisicaBean.acao == 'excluir'}" locale="pt"
+					timeZone="GMT-3">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+					<f:validateBean />
+				</p:calendar>
+				<p:outputLabel />
+
+				<p:outputLabel value="Observações:" />
+				<p:inputTextarea maxlength="50" size="30"
+					value="#{pessoaFisicaBean.pfisicaCadastro.observacao}"
+					readonly="#{pessoaFisicaBean.acao == 'excluir'}">
+					<f:validateBean />
+				</p:inputTextarea>
+				<p:outputLabel />
+
+			</h:panelGrid>
+
+
+			<h:panelGrid columns="5">
+				<p:commandButton value="Novo"
+					actionListener="#{pessoaFisicaBean.novo}"
+					update=":formCadPessoaFisica:pnlPessoaDados"
+					rendered="#{pessoaFisicaBean.acao == 'novo'}" />
+				<p:commandButton value="Salvar"
+					actionListener="#{pessoaFisicaBean.salvar}"
+					update=":msgGlobal :formCadPessoaFisica:pnlPessoaDados"
+					rendered="#{pessoaFisicaBean.acao == 'novo'}" />
+				<p:button value="Voltar"
+					outcome="/pages/pessoaFisica/pessoaFisicaPesquisa.xhtml?faces-redirect=true" />
+				<p:commandButton value="Editar"
+					actionListener="#{pessoaFisicaBean.editar}" update=":msgGlobal"
+					rendered="#{pessoaFisicaBean.acao == 'editar'}" />
+				<p:commandButton value="Excluir"
+					actionListener="#{pessoaFisicaBean.excluir}" update=":msgGlobal"
+					rendered="#{pessoaFisicaBean.acao == 'excluir'}" />
+			</h:panelGrid>
+		</h:form>
+		<!-- Dialogo para o cadastrado de uma pessoa -->
+		<p:dialog closable="true" draggable="true" modal="true"
+			resizable="false" header="Cadastro Pessoa" widgetVar="DlgPessoa"
+			appendTo="@(body)">
+			<h:form id="formCadPessoa">
+				<h:panelGrid id="pnlPessoaDados" columns="3">
+					<p:outputLabel value="Nome:" />
+					<p:inputText maxlength="50" size="30"
+						value="#{pessoaBean.pessoaCadastro.nome}"
+						readonly="#{pessoaBean.acao == 'excluir'}">
+						<f:validateBean />
+					</p:inputText>
+					<p:outputLabel />
+
+					<p:outputLabel value="Endereço:" />
+					<p:selectOneMenu id="listaEndereco"
+						value="#{pessoaBean.pessoaCadastro.endereco}"
+						converter="enderecoConverter" filter="true"
+						filterMatchMode="startsWith" style="width: 99%;">
+						<f:selectItem itemValue="" itemLabel="Selecione o endereço" />
+						<f:selectItems value="#{pessoaBean.listaEnderecos}" var="endereco"
+							itemValue="#{endereco}"
+							itemLabel="#{endereco.logradouro}, #{endereco.numero}" />
+						<f:validateBean />
+					</p:selectOneMenu>
+					<p:commandButton value="Novo" onclick="PF ('DlgEndereco').show();" />
+
+					<p:outputLabel value="Observações:" />
+					<p:inputText maxlength="50" size="30"
+						value="#{pessoaBean.pessoaCadastro.observacao}"
+						readonly="#{pessoaBean.acao == 'excluir'}">
+						<f:validateBean />
+					</p:inputText>
+					<p:outputLabel />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{pessoaBean.salvar}"
+						update=":msgGlobal :formCadPessoaFisica:listaPessoa"
+						oncomplete="PF('DlgPessoa').hide();" />
+
+					<p:commandButton value="Voltar" onclick="PF('DlgPessoa').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+		<!-- Dialogo para o cadastro do endereço -->
+		<p:dialog closable="true" draggable="true" modal="true"
+			resizable="false" header="Cadastro Endereço" widgetVar="DlgEndereco"
+			appendTo="@(body)">
+			<h:form id="formCadEndereco">
+				<h:panelGrid id="pnlEnderecoDados" columns="2">
+					<p:outputLabel value="Rua:" />
+					<p:inputText maxlength="50" size="30"
+						value="#{enderecoBean.enderecoCadastrado.logradouro}"
+						readonly="#{enderecoBean.acao == 'excluir'}">
+						<f:validateBean />
+					</p:inputText>
+
+					<p:outputLabel value="Número:" />
+					<p:inputText maxlength="30" size="30"
+						value="#{enderecoBean.enderecoCadastrado.numero}"
+						readonly="#{enderecoBean.acao == 'excluir'}">
+						<f:validateBean />
+					</p:inputText>
+
+					<p:outputLabel value="Complemento:" />
+					<p:inputText maxlength="50" size="30"
+						value="#{enderecoBean.enderecoCadastrado.complemento}"
+						readonly="#{enderecoBean.acao == 'excluir'}">
+						<f:validateBean />
+					</p:inputText>
+
+					<p:outputLabel value="Bairro:" />
+					<p:inputText maxlength="50" size="30"
+						value="#{enderecoBean.enderecoCadastrado.bairro}"
+						readonly="#{enderecoBean.acao == 'excluir'}">
+						<f:validateBean />
+					</p:inputText>
+
+					<p:outputLabel value="CEP:" />
+					<p:inputMask mask="99999-999" size="10"
+						value="#{enderecoBean.enderecoCadastrado.cep}"
+						readonly="#{enderecoBean.acao == 'excluir'}">
+						<f:validateBean />
+					</p:inputMask>
+
+					<p:outputLabel value="Cidade:" />
+					<p:inputText maxlength="50" size="30"
+						value="#{enderecoBean.enderecoCadastrado.cidade}"
+						readonly="#{enderecoBean.acao == 'excluir'}">
+						<f:validateBean />
+					</p:inputText>
+
+					<p:outputLabel value="Estado:" />
+					<p:inputText maxlength="30" size="30"
+						value="#{enderecoBean.enderecoCadastrado.estado}"
+						readonly="#{enderecoBean.acao == 'excluir'}">
+						<f:validateBean />
+					</p:inputText>
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{enderecoBean.salvar}"
+						update=":msgGlobal :formCadPessoa:listaEndereco"
+						oncomplete="PF('DlgEndereco').hide();" />
+
+					<p:commandButton value="Voltar" onclick="PF('DlgEndereco').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+
+</ui:composition>
+
+</html>

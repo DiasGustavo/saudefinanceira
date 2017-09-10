@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{lancamentoBean.listar}" type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form>
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Pesquisa Pagamentos" />
+				</f:facet>
+			</p:toolbar>
+
+			<p:dataTable id="tblPagamentos"
+				emptyMessage="Nenhum registro encontrado."
+				value="#{lancamentoBean.listaLancamentos}"
+				filteredValue="#{lancamentoBean.listaLancamentosFiltrados}"
+				var="lancamento" rows="10" paginator="true" widgetVar="atabela">
+				<f:facet name="footer">
+					<p:button value="Novo"
+						outcome="/pages/pagamento/pagamentoCadastro.xhtml?faces-redirect=true">
+						<f:param name="lanacao" value="novo" />
+					</p:button>
+				</f:facet>
+				<p:column headerText="Código" filterBy="#{lancamento.id}"
+					sortBy="#{lancamento.id}" style="width: 9%;">
+					<h:outputText value="#{lancamento.id}" />
+				</p:column>
+
+				<p:column headerText="Descrição" filterBy="#{lancamento.descricao}"
+					filterStyle="max-width: 98%; min-width: 98%;">
+					<h:outputText value="#{lancamento.descricao}" />
+				</p:column>
+
+				<p:column headerText="Data Lançamento"
+					filterBy="#{lancamento.dataLancamento}"
+					sortBy="#{lancamento.dataLancamento}"
+					filterFunction="#{lancamentoBean.dateToString}"
+					style="width: 12%; text-align: center;">
+					<h:outputText value="#{lancamento.dataLancamento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+							timeZone="GMT-3" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Data Vencimento"
+					filterBy="#{lancamento.dataVencimento}"
+					sortBy="#{lancamento.dataVencimento}"
+					filterFunction="#{lancamentoBean.dateToString}"
+					style="width: 12%; text-align: center;">
+
+					<h:outputText value="#{lancamento.dataVencimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+							timeZone="GMT-3" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Opções"
+					style="width: 12%; text-align: center;">
+					<p:button value="Emitir Recibo"
+						outcome="/pages/pagamento/pagamentoCadastro.xhtml?faces-redirect=true">
+						<f:param name="lanId" value="#{lancamento.id}" />
+						<f:param name="lancao" value="emitirRecibo" />
+					</p:button>
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+
+</html>

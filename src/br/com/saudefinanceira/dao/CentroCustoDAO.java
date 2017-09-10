@@ -6,95 +6,95 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import br.com.saudefinanceira.domain.Lancamento;
+import br.com.saudefinanceira.domain.CentroCusto;
 import br.com.saudefinanceira.util.HibernateUtil;
 
-public class LancamentoDAO {
+public class CentroCustoDAO {
 
-	public Long salvar(Lancamento lancamento){
+	public void salvar(CentroCusto centro){
 		Session sessao = HibernateUtil.getSessionFactory().openSession();
 		Transaction transacao = null;
-		Long codigo = null;
 		
 		try{
 			transacao = sessao.beginTransaction();
-			codigo = (Long) sessao.save(lancamento);
+			sessao.save(centro);
 			transacao.commit();
 		}catch(RuntimeException ex){
 			if (transacao != null){
 				transacao.rollback();
 			}
 			throw ex;
-		}finally{
+		} finally {
 			sessao.close();
 		}
-		return codigo;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Lancamento> listar(){
+	public List<CentroCusto> listar(){
 		Session sessao = HibernateUtil.getSessionFactory().openSession();
-		List<Lancamento> lancamentos = null;
+		List<CentroCusto> centroCustos = null;
 		
 		try{
-			Query consulta = sessao.getNamedQuery("Lancamento.listar");
-			lancamentos = consulta.list();
+			Query consulta = sessao.getNamedQuery("CentroCusto.listar");
+			centroCustos = consulta.list();
+			
 		}catch(RuntimeException ex){
 			throw ex;
 		}finally{
 			sessao.close();
 		}
-		return lancamentos;
+		return centroCustos;
 	}
 	
-	public Lancamento buscarPorCodigo(Long id){
+	public CentroCusto buscarPorCodigo (Long id){
 		Session sessao = HibernateUtil.getSessionFactory().openSession();
-		Lancamento lancamento = null;
+		CentroCusto centro = null;
 		
 		try{
-			Query consulta = sessao.getNamedQuery("Lancamento.buscarPorCodigo");
+			Query consulta = sessao.getNamedQuery("CentroCusto.buscarPorCodigo");
 			consulta.setLong("codigo", id);
-			lancamento = (Lancamento) consulta.uniqueResult();
+			
+			centro = (CentroCusto)consulta.uniqueResult();
 		}catch(RuntimeException ex){
 			throw ex;
 		}finally{
 			sessao.close();
 		}
-		return lancamento;
+		return centro;
 	}
 	
-	public void editar(Lancamento lancamento){
+	public void editar(CentroCusto centro){
 		Session sessao = HibernateUtil.getSessionFactory().openSession();
 		Transaction transacao = null;
 		
 		try{
 			transacao = sessao.beginTransaction();
-			sessao.update(lancamento);
+			sessao.update(centro);
 			transacao.commit();
 		}catch(RuntimeException ex){
 			if (transacao != null){
 				transacao.rollback();
 			}
 			throw ex;
-		}finally{
+		} finally {
 			sessao.close();
 		}
 	}
 	
-	public void excluir (Lancamento lancamento){
+	public void excluir(CentroCusto centro){
 		Session sessao = HibernateUtil.getSessionFactory().openSession();
 		Transaction transacao = null;
 		
 		try{
 			transacao = sessao.beginTransaction();
-			sessao.delete(lancamento);
+			sessao.delete(centro);
 			transacao.commit();
 		}catch(RuntimeException ex){
 			if (transacao != null){
 				transacao.rollback();
 			}
 			throw ex;
-		}finally{
+		} finally {
 			sessao.close();
 		}
 	}
