@@ -9,11 +9,10 @@
 <ui:composition template="/templates/modeloGeral.xhtml">
 	<ui:define name="metadata">
 		<f:metadata>
-			<f:viewParam name="iteacao" value="#{itemBean.acao}"/>
-			<f:viewParam name="iteId" value="#{itemBean.codigo}"/>
-		
-			<f:event listener="#{itemBean.carregarDados}"
-				type="preRenderView" />
+			<f:viewParam name="iteacao" value="#{itemBean.acao}" />
+			<f:viewParam name="iteId" value="#{itemBean.codigo}" />
+
+			<f:event listener="#{itemBean.carregarDados}" type="preRenderView" />
 		</f:metadata>
 	</ui:define>
 
@@ -34,8 +33,7 @@
 				</p:inputText>
 
 				<p:outputLabel value="Valor:" />
-				<p:inputText size="20"
-					value="#{itemBean.itemCadastro.valor}"
+				<p:inputText size="20" value="#{itemBean.itemCadastro.valor}"
 					readonly="#{itemBean.acao == 'excluir'}"
 					converterMessage="Informe um valor válido">
 					<f:convertNumber />
@@ -46,18 +44,17 @@
 
 			<h:panelGrid columns="5">
 				<p:commandButton value="Novo" actionListener="#{itemBean.novo}"
-					update=":formCadItem:pnlItemDados"
+					icon="ui-icon-plus" update=":formCadItem:pnlItemDados"
 					rendered="#{itemBean.acao == 'novo'}" />
-				<p:commandButton value="Salvar"
-					actionListener="#{itemBean.salvar}"
-					update=":msgGlobal :formCadItem:pnlItemDados"
+				<p:commandButton value="Salvar" actionListener="#{itemBean.salvar}"
+					icon="ui-icon-disk" update=":msgGlobal :formCadItem:pnlItemDados"
 					rendered="#{itemBean.acao == 'novo'}" />
-				<p:button value="Voltar"
+				<p:button value="Voltar" icon="ui-icon-arrowreturnthick-1-w"
 					outcome="/pages/item/itemPesquisa.xhtml?faces-redirect=true" />
-				<p:commandButton value="Editar"
-					actionListener="#{itemBean.editar}" update=":msgGlobal"
+				<p:commandButton value="Editar" actionListener="#{itemBean.editar}"
+					icon="ui-icon-pencil" update=":msgGlobal"
 					rendered="#{itemBean.acao == 'editar'}" />
-				<p:commandButton value="Excluir"
+				<p:commandButton value="Excluir" icon="ui-icon-close"
 					actionListener="#{itemBean.excluir}" update=":msgGlobal"
 					rendered="#{itemBean.acao == 'excluir'}" />
 			</h:panelGrid>

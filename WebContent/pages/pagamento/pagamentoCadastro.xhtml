@@ -28,7 +28,7 @@
 				<p:outputLabel value="Fornecedor: " />
 				<p:selectOneMenu id="listaPessoa"
 					value="#{lancamentoBean.lancamentoCadastro.pessoa}"
-					converter="pessoaConverter" filter="true" style="width: 228px;">
+					converter="pessoaConverter" filter="true" style="width: 230px;">
 					<f:selectItem itemValue="" itemLabel="Selecione a pessoa" />
 					<f:selectItems value="#{lancamentoBean.listaPessoas}" var="pessoa"
 						itemValue="#{pessoa}" itemLabel="#{pessoa.nome}" />
@@ -38,23 +38,23 @@
 				<p:outputLabel id="dtLancamento" value="Data Lançamento: " />
 				<p:calendar
 					value="#{lancamentoBean.lancamentoCadastro.dataLancamento}"
-					pattern="dd/MM/yyyy" mask="true" mode="popup" size="8" locale="pt"
-					showOn="button">
-					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+					pattern="dd/MM/yyyy" mask="true" size="8" locale="pt">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
 					<f:validateBean />
 				</p:calendar>
 
 				<p:outputLabel id="dtVencimento" value="Data Vencimento: " />
 				<p:calendar
 					value="#{lancamentoBean.lancamentoCadastro.dataVencimento}"
-					pattern="dd/MM/yyyy" mask="true" mode="popup" size="8" locale="pt" timeZone="GMT-3"
-					showOn="button">
-					<f:convertDateTime pattern="dd/MM/yyyy" locale="pt" timeZone="GMT-3"/>
+					pattern="dd/MM/yyyy" mask="true" size="8" locale="pt"
+					timeZone="GMT-3">
+					<f:convertDateTime pattern="dd/MM/yyyy" locale="pt"
+						timeZone="GMT-3" />
 					<f:validateBean />
 				</p:calendar>
 
 				<p:outputLabel value="Descrição: " />
-				<p:inputTextarea id="descricao" rows="3" cols="33" queryDelay="750"
+				<p:inputTextarea id="descricao" rows="3" cols="29" queryDelay="750"
 					minQueryLength="4"
 					value="#{lancamentoBean.lancamentoCadastro.descricao}" />
 				<p:spacer />
@@ -80,30 +80,49 @@
 			<p:dataTable id="tblitemLancamento"
 				emptyMessage="Nenhum registro encontrado."
 				value="#{lancamentoBean.listaDespesas}" var="despesa" rows="5"
-				paginator="true">
+				paginator="true" editable="true">
+
+				<p:ajax event="rowEdit" listener="#{lancamentoBean.atualizarDespesa(despesa)}"
+					update=":formCadLancamento:txtTotal" />
+				
 
 				<p:column headerText="Produto/Serviço">
 					<h:outputText value="#{despesa.item.descricao}" />
 				</p:column>
 
-				<p:column headerText="Quantidade"
+				<p:column id="qtde" headerText="Quantidade"
 					style="width: 9%; text-align: center;">
-					<h:outputText value="#{despesa.quantidade}" />
+
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{despesa.quantidade}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{despesa.quantidade}" style="width:96%"
+								label="Year" />
+						</f:facet>
+					</p:cellEditor>
+
 				</p:column>
 
-				<p:column headerText="SubTotal"
+				<p:column id="subtotal" headerText="SubTotal"
 					style="width: 9%; text-align: center;">
-					<h:outputText value="#{despesa.valorUnitario}">
+					<h:outputText id="subv" value="#{despesa.valorUnitario}">
 						<f:convertNumber pattern="0.00" />
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Opções" style="width: 7%;">
+				<p:column headerText="Opções" style="width: 9%;">
 					<p:commandButton value="Remover"
 						actionListener="#{lancamentoBean.removerDespesa(despesa)}"
 						update=":formCadLancamento:tblitemLancamento :formCadLancamento:txtTotal"
 						process="@this" />
 				</p:column>
+
+				<p:column style="width:32px">
+					<p:rowEditor />
+				</p:column>
+
 			</p:dataTable>
 			<h:outputText id="txtTotal"
 				value="Total: #{lancamentoBean.lancamentoCadastro.total}"

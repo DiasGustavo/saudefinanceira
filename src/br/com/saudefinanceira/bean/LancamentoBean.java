@@ -177,11 +177,21 @@ public class LancamentoBean {
 		}
 	}
 
-	
 	public boolean dateToString(Object value, Object filter, Locale locale) {
-		String filterText = (filter == null) ? null : filter.toString().trim();// as datas que são passadas para filtrar
-		String dateText = (value == null) ? null : value.toString().trim();// as data que estão no banco
-				
+		String filterText = (filter == null) ? null : filter.toString().trim();// as
+																				// datas
+																				// que
+																				// são
+																				// passadas
+																				// para
+																				// filtrar
+		String dateText = (value == null) ? null : value.toString().trim();// as
+																			// data
+																			// que
+																			// estão
+																			// no
+																			// banco
+
 		if (filterText == null || filterText.equals("")) {
 			return true;
 		}
@@ -189,14 +199,13 @@ public class LancamentoBean {
 		if (value == null) {
 			return false;
 		}
-		
-		if (filterText.equals(dateText)){
+
+		if (filterText.equals(dateText)) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 
-		
 	}
 
 	public void adicionarDespesa(Item item) {
@@ -229,6 +238,32 @@ public class LancamentoBean {
 		}
 
 		lancamentoCadastro.setTotal(lancamentoCadastro.getTotal().add(item.getValor()));
+
+	}
+
+	public void atualizarDespesa(Despesa despesaRecebida) {
+
+		int posicaoEncontrada = -1;
+
+		for (int pos = 0; pos < listaDespesas.size() && posicaoEncontrada < 0; pos++) {
+			Despesa despesaTemp = listaDespesas.get(pos);
+
+			if (despesaTemp.getItem().equals(despesaRecebida.getItem())) {
+				posicaoEncontrada = pos;
+			}
+
+		}
+		
+		Despesa despesa = despesaRecebida;
+
+		despesa.setValorUnitario(despesa.getItem().getValor().multiply(new BigDecimal(despesa.getQuantidade())));
+		listaDespesas.set(posicaoEncontrada, despesa);
+		BigDecimal valor = new BigDecimal(0);
+		for (int cursor = 0; cursor < listaDespesas.size(); cursor++) {
+			Despesa despesaValor = listaDespesas.get(cursor);
+			valor = valor.add(despesaValor.getValorUnitario());
+		}
+		lancamentoCadastro.setTotal(valor);
 
 	}
 
